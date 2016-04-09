@@ -1,5 +1,4 @@
 <?php
-
 $route = '/utility/api/server/rebuild/';
 $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 
