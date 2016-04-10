@@ -3631,7 +3631,7 @@
           }
         },
         "tags": [
-          "Organization - Services"
+          "Organization - Program Services"
         ]
       },
       "post": {
@@ -3672,7 +3672,7 @@
           }
         },
         "tags": [
-          "Organization - Services"
+          "Organization - Program Services"
         ]
       }
     },
@@ -3705,7 +3705,7 @@
           }
         },
         "tags": [
-          "Organization - Services"
+          "Organization - Program Services"
         ]
       },
       "put": {
@@ -3746,7 +3746,7 @@
           }
         },
         "tags": [
-          "Organization - Services"
+          "Organization - Program Services"
         ]
       },
       "delete": {
@@ -3777,7 +3777,7 @@
           }
         },
         "tags": [
-          "Organization - Services"
+          "Organization - Program Services"
         ]
       }
     },
