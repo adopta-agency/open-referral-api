@@ -224,18 +224,18 @@ layout: page
                           {% endfor %}
                         </table>
 
-                        <h3>Definitions-1</h3>
+                        <h3>Definitions-2</h3>
                         {% assign taglist = '' %}
                         {% for spec in openapi_spec_json %}
 
                           {% for definition in spec.definitions %}
 
                             {% assign definition_name = definition[0] %}
-                            {% assign definition = definition[1] %}
+                            {% assign fields = definition[1] %}
 
                             <strong>{{ definition_name }}</strong><br />
-                            --{{ definition.properties }}--
-                            {% for property in definition.properties %}
+                            --{{ fields.properties }}--
+                            {% for property in fields.properties %}
 
                               {% assign property_name = property[0] %}
                               {% assign property = property[1] %}
