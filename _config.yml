@@ -49,7 +49,7 @@ project_summary: This is the master portal where I access all of the APIs I depe
 # Navigation
 navigation:
   - label1: Home
-    link1: /api/
+    link1: /open-referral-api/
     size1: 80
     extend: 0
     label2:
@@ -58,7 +58,7 @@ navigation:
     padding: 10
     decorate: 0
   - label1: Getting Started
-    link1: /api/getting-started/
+    link1: /open-referral-api/getting-started/
     size1: 80
     extend: 0
     label2:
@@ -67,7 +67,7 @@ navigation:
     padding: 2
     decorate: 0
   - label1: Documentation
-    link1: /api/documentation/
+    link1: /open-referral-api/documentation/
     size1: 80
     extend: 0
     label2:
@@ -76,7 +76,7 @@ navigation:
     padding: 2
     decorate: 0
   - label1: Support
-    link1: /api/support/
+    link1: /open-referral-api/support/
     size1: 80
     extend: 0
     label2:
