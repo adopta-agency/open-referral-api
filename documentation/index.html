@@ -1,6 +1,5 @@
 ---
 layout: page
-filter_name: Learn the Basics
 ---
 <script type="text/javascript">
   function showme($id)
@@ -21,6 +20,8 @@ filter_name: Learn the Basics
 {% assign apijson = index[0] %}
 {% assign contents = site.data.api-commons %}
 {% assign apicommons = contents %}
+
+{% assign filter_name = 'Learn the Basics' %}
 
 {% assign blog_url = '' %}
 {% assign blogrss_url = '' %}
@@ -180,7 +181,7 @@ filter_name: Learn the Basics
                             {{ filter.name }}<br />
                           {% endfor %}
 
-                          HERE: {{ page.filter_name }}
+                          HERE: {{ filter_name }}
                         </td>
                       </tr>
                     {% endif %}
@@ -230,7 +231,7 @@ filter_name: Learn the Basics
                             {% for spec in openapi_spec_json %}
                               {% for path in spec.paths %}
                                 {% assign method_json = path[1] %}
-                                
+
                                 {% for method in method_json %}
 
                                   {% assign tagarray = method[1].tags %}
