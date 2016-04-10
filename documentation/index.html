@@ -230,20 +230,21 @@ layout: page
                         </tr>
                         {% assign taglist = '' %}
                         {% for spec in openapi_spec_json %}
-
                           {% for definition in spec.definitions %}
-
                             {% assign definition_name = definition[0] %}
                             {% assign fields = definition[1] %}
-
                             <tr>
                               <td>
-                                <strong>{{ definition_name }}</strong><br />
-                                --{{ fields.properties }}--
-                
+                                <strong>{{ definition_name }}</strong>
+                                <ul style='padding-left: 25px; margin-top:5px;'>
+                                {% for property in fields.properties %}
+                                  {% assign property_name = property[0] %}
+                                  {% assign property = property[1] %}
+                                  <li>{{ property_name }}</li>
+                                {% endfor %}
+                              </ul>
                               </td>
                             </tr>
-
                           {% endfor %}
                         {% endfor %}
 
