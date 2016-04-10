@@ -1,6 +1,6 @@
 ---
 layout: page
-file_name: Learn the Basics
+filter_name: Learn the Basics
 ---
 <script type="text/javascript">
   function showme($id)
@@ -180,7 +180,7 @@ file_name: Learn the Basics
                             {{ filter.name }}<br />
                           {% endfor %}
 
-                          HERE: {{ file_name }}
+                          HERE: {{ page.filter_name }}
                         </td>
                       </tr>
                     {% endif %}
