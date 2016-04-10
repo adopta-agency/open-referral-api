@@ -240,16 +240,7 @@ layout: page
                               <td>
                                 <strong>{{ definition_name }}</strong><br />
                                 --{{ fields.properties }}--
-                                <ul>
-                                {% for property in fields.properties %}
-
-                                  {% assign property_name = property[0] %}
-                                  {% assign property = property[1] %}
-
-                                  <li>{{ property_name }}</li>
-
-                                {% endfor %}
-                              </ul>
+                
                               </td>
                             </tr>
 
