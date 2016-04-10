@@ -297,39 +297,6 @@ layout: page
 
                           {% endfor %}
 
-                          <tr style="background-color: #D3D3D3;">
-                            <td colspan="3"></td>
-                          </tr>
-                        <tr style="background-color: #D3D3D3;">
-                          <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">Entities</td>
-                          <td colspan="2" align="right" style="padding: 10px;">
-                            {% if json_schema_url != null and json_schema_url != empty %}
-                              <a href="{{ site.url }}{{ json_schema_url }}" target="_blank" title="View JSON Schema" style="font-size: 16px; font-weight: normal;">JSON Schema</a>
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% assign taglist = '' %}
-                        {% for spec in openapi_spec_json %}
-                          {% for definition in spec.definitions %}
-                            {% assign definition_name = definition[0] %}
-                            {% assign fields = definition[1] %}
-                            <tr>
-                              <td style="padding-left: 10px; padding-top: 10px;">
-                                <strong>{{ definition_name }}</strong>
-                                <ul style='padding-left: 25px; margin-top:5px;'>
-                                {% for property in fields.properties %}
-                                  {% assign property_name = property[0] %}
-                                  {% assign property = property[1] %}
-                                  <li>{{ property_name }}</li>
-                                {% endfor %}
-                              </ul>
-                              </td>
-                              <td align="right" style="padding: 10px;"></td>
-                              <td align="right" style="padding: 10px;"></td>
-                            </tr>
-                          {% endfor %}
-                        {% endfor %}
-
                         </table>
                       </td>
                     </tr>
