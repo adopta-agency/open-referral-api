@@ -86,7 +86,9 @@ layout: page
 
   <tr>
     <td>
-      <a href="{{ site.url }}" style="font-size: 22px;"><strong>API Documentation</strong></a><br />
+        <strong>API Documentation</strong>
+        (<a href="learn-the-basics/" style="font-size: 18px;">Learn The Basics</a>)
+        (<a href="services-summary/" style="font-size: 18px;">Services Summary</a>)
     </td>
   </tr>
   <tr>
@@ -261,7 +263,7 @@ layout: page
 
                                 {% if filter_name == '' %}
                                   {% assign filter_path = 0 %}
-                                {% endif %}                                
+                                {% endif %}
 
                                 {% if filter_path == 0 %}
                                   {% for method in method_json %}
