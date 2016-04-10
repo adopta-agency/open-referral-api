@@ -112,7 +112,7 @@ layout: page
                 {% for api in apijson.apis %}
 
                 <table cellpadding="3" cellspacing="2" width="100%" border="1">
-
+                    {% strip %}
                     {% assign api_action_spec = '' %}
                     {% assign api_action_url = '' %}
                     {% assign openapi_spec_json = '' %}
@@ -178,6 +178,14 @@ layout: page
                       {% endif %}
 
                     {% endfor %}
+                    {% endstrip %}
+                    {% if filter_name != null and filter_name != empty %}
+                      <tr>
+                        <td align="center" colspan="2" style="font-size: 18px; font-weight: bold; padding: 10px;">
+                          {{ filter_name }}
+                        </td>
+                      </tr>
+                    {% endif %}
 
                     <tr style="background-color: #D3D3D3;">
                       <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">
@@ -193,6 +201,7 @@ layout: page
                       <td colspan="2">
 
                         <table width="95%" border="0" style="margin-left: 15px; margin-right: 15px;">
+                          {% strip %}
                           {% assign taglist = '' %}
                           {% for spec in openapi_spec_json %}
                             {% for path in spec.paths %}
@@ -212,6 +221,10 @@ layout: page
                                 {% endif %}
                               {% endfor %}
 
+                              {% if filter_name == '' %}
+                                {% assign filter_path = 0 %}
+                              {% endif %}
+
                               {% if filter_path == 0 %}
                                 {% for method in method_json %}
                                   {% assign tagarray = method[1].tags %}
@@ -229,11 +242,11 @@ layout: page
 
                           {% assign tagArray = taglist | split: "," %}
                           {% for grouptag in tagArray %}
-
+                          {% endstrip %}
                             <tr>
                               <td colspan="3" style="padding-top: 10px;"><strong>{{ grouptag }}</strong></td>
                             </tr>
-
+                            {% strip %}
                             {% for spec in openapi_spec_json %}
                               {% for path in spec.paths %}
 
@@ -251,6 +264,10 @@ layout: page
                                     {% endfor %}
                                   {% endif %}
                                 {% endfor %}
+
+                                {% if filter_name == '' %}
+                                  {% assign filter_path = 0 %}
+                                {% endif %}
 
                                 {% if filter_path == 0 %}
                                   {% for method in method_json %}
@@ -274,7 +291,7 @@ layout: page
                                     {% endif %}
 
                                     {% assign summary = method[1].summary %}
-
+                                    {% endstrip %}
                                     {% if tag == grouptag %}
                                       <tr>
                                         <td style="padding-left: 20px; font-size: 12px;">{{ summary }}</td>
@@ -283,6 +300,7 @@ layout: page
                                           {{ verb }}
                                         </td>
                                       </tr>
+                                    {% strip %}
                                     {% endif %}
 
                                   {% endfor %}
@@ -293,6 +311,39 @@ layout: page
                             {% endfor %}
 
                           {% endfor %}
+                          {% endstrip %}
+                          <tr style="background-color: #D3D3D3;">
+                            <td colspan="3"></td>
+                          </tr>
+                        <tr style="background-color: #D3D3D3;">
+                          <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">Entities</td>
+                          <td colspan="2" align="right" style="padding: 10px;">
+                            {% if json_schema_url != null and json_schema_url != empty %}
+                              <a href="{{ site.url }}{{ json_schema_url }}" target="_blank" title="View JSON Schema" style="font-size: 16px; font-weight: normal;">JSON Schema</a>
+                            {% endif %}
+                          </td>
+                        </tr>
+                        {% assign taglist = '' %}
+                        {% for spec in openapi_spec_json %}
+                          {% for definition in spec.definitions %}
+                            {% assign definition_name = definition[0] %}
+                            {% assign fields = definition[1] %}
+                            <tr>
+                              <td style="padding-left: 10px; padding-top: 10px;">
+                                <strong>{{ definition_name }}</strong>
+                                <ul style='padding-left: 25px; margin-top:5px;'>
+                                {% for property in fields.properties %}
+                                  {% assign property_name = property[0] %}
+                                  {% assign property = property[1] %}
+                                  <li>{{ property_name }}</li>
+                                {% endfor %}
+                              </ul>
+                              </td>
+                              <td align="right" style="padding: 10px;"></td>
+                              <td align="right" style="padding: 10px;"></td>
+                            </tr>
+                          {% endfor %}
+                        {% endfor %}
 
                         </table>
                       </td>
