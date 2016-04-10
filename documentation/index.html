@@ -208,9 +208,11 @@ layout: page
                               {% assign filter_path = 1 %}
                               {% for filter in api_filters %}
                                 {% assign this_filter_name = filter.name %}
-                                {% if this_filter_name != filter_name %}
-                                  {% assign filter_path = 0 %}
-                                {% endif %}
+                                {% for show in filter.filters %}
+                                  {% if this_path == show.path %}
+                                    {% assign filter_path = 0 %}
+                                  {% endif %}
+                                {% endfor %}
                               {% endfor %}
 
                               {% if filter_path == 0 %}
@@ -245,9 +247,7 @@ layout: page
                                 {% for filter in api_filters %}
                                   {% assign this_filter_name = filter.name %}
                                   {% for show in filter.filters %}
-
                                     {% if this_path == show.path %}
-                                      {{ this_path }} == {{ show.path }}<br />
                                       {% assign filter_path = 0 %}
                                     {% endif %}
                                   {% endfor %}
