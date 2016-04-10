@@ -1,7 +1,7 @@
 {
   "name": "Open Referral API",
   "description": "This is a specification describing the Open Referral API, using the Human Services Specification. This has been extracted from the Ohana API deployment, but will be standardized to refer to the universal standard that will apply to any Open Referral compliant API.",
-  "image": "hhttps://s3.amazonaws.com/kinlane-productions/adopta-agency/open-referral/openreferral-logo.png",
+  "image": "https://s3.amazonaws.com/kinlane-productions/adopta-agency/open-referral/openreferral-logo.png",
   "x-open-ranking": "0",
   "tags": [
     "API",
