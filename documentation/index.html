@@ -208,11 +208,13 @@ layout: page
                               {% assign filter_path = 1 %}
                               {% for filter in api_filters %}
                                 {% assign this_filter_name = filter.name %}
-                                {% for show in filter.filters %}
-                                  {% if this_path == show.path %}
-                                    {% assign filter_path = 0 %}
-                                  {% endif %}
-                                {% endfor %}
+                                {% if this_filter_name == filter_name %}
+                                  {% for show in filter.filters %}
+                                    {% if this_path == show.path %}
+                                      {% assign filter_path = 0 %}
+                                    {% endif %}
+                                  {% endfor %}
+                                {% endif %}
                               {% endfor %}
 
                               {% if filter_path == 0 %}
@@ -246,11 +248,13 @@ layout: page
                                 {% assign filter_path = 1 %}
                                 {% for filter in api_filters %}
                                   {% assign this_filter_name = filter.name %}
-                                  {% for show in filter.filters %}
-                                    {% if this_path == show.path %}
-                                      {% assign filter_path = 0 %}
-                                    {% endif %}
-                                  {% endfor %}
+                                  {% if this_filter_name == filter_name %}
+                                    {% for show in filter.filters %}
+                                      {% if this_path == show.path %}
+                                        {% assign filter_path = 0 %}
+                                      {% endif %}
+                                    {% endfor %}
+                                  {% endif %}
                                 {% endfor %}
 
                                 {% if filter_path == 0 %}
