@@ -261,7 +261,7 @@
           }
         },
         "tags": [
-          "Contacts"
+          "Contact - Phones"
         ]
       },
       "post": {
@@ -312,7 +312,7 @@
           }
         },
         "tags": [
-          "Contacts"
+          "Contact - Phones"
         ]
       }
     },
@@ -349,7 +349,7 @@
           }
         },
         "tags": [
-          "Contacts"
+          "Contact - Phones"
         ]
       },
       "put": {
@@ -400,7 +400,7 @@
           }
         },
         "tags": [
-          "Contacts"
+          "Contact - Phones"
         ]
       },
       "delete": {
@@ -431,7 +431,7 @@
           }
         },
         "tags": [
-          "Contacts"
+          "Contact - Phones"
         ]
       }
     },
@@ -650,7 +650,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Holiday Schedule"
         ]
       },
       "post": {
@@ -706,7 +706,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Holiday Schedule"
         ]
       }
     },
@@ -739,7 +739,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Holiday Schedule"
         ]
       },
       "put": {
@@ -795,7 +795,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Holiday Schedule"
         ]
       },
       "delete": {
@@ -826,7 +826,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Holiday Schedule"
         ]
       }
     },
@@ -854,7 +854,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Language"
         ]
       },
       "post": {
@@ -890,7 +890,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Language"
         ]
       }
     },
@@ -923,7 +923,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Language"
         ]
       },
       "put": {
@@ -959,7 +959,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Language"
         ]
       },
       "delete": {
@@ -990,7 +990,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Language"
         ]
       }
     },
@@ -1018,7 +1018,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Postal Address"
         ]
       },
       "post": {
@@ -1094,7 +1094,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Postal Address"
         ]
       }
     },
@@ -1127,7 +1127,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Postal Address"
         ]
       },
       "put": {
@@ -1203,7 +1203,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Postal Address"
         ]
       },
       "delete": {
@@ -1234,7 +1234,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Postal Address"
         ]
       }
     },
@@ -1262,7 +1262,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Physical Address"
         ]
       },
       "post": {
@@ -1338,7 +1338,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Physical Address"
         ]
       }
     },
@@ -1371,7 +1371,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Physical Address"
         ]
       },
       "put": {
@@ -1447,7 +1447,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Physical Address"
         ]
       },
       "delete": {
@@ -1478,7 +1478,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Physical Address"
         ]
       }
     },
@@ -1506,7 +1506,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Phones"
         ]
       },
       "post": {
@@ -1557,7 +1557,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Phones"
         ]
       }
     },
@@ -1590,7 +1590,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Phones"
         ]
       },
       "put": {
@@ -1641,7 +1641,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Phones"
         ]
       },
       "delete": {
@@ -1672,7 +1672,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Phones"
         ]
       }
     },
@@ -1700,7 +1700,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Regular Schedule"
         ]
       },
       "post": {
@@ -1746,7 +1746,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Regular Schedule"
         ]
       }
     },
@@ -1779,7 +1779,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Regular Schedule"
         ]
       },
       "put": {
@@ -1825,7 +1825,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Regular Schedule"
         ]
       },
       "delete": {
@@ -1856,7 +1856,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Regular Schedule"
         ]
       }
     },
@@ -1878,7 +1878,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Services"
         ]
       },
       "post": {
@@ -1944,7 +1944,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Services"
         ]
       }
     },
@@ -1977,7 +1977,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Services"
         ]
       },
       "put": {
@@ -2043,7 +2043,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Services"
         ]
       },
       "delete": {
@@ -2074,7 +2074,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Services"
         ]
       }
     },
@@ -2102,7 +2102,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Accessibility For Disabilities"
         ]
       },
       "post": {
@@ -2138,7 +2138,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Accessibility For Disabilities"
         ]
       }
     },
@@ -2166,7 +2166,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Accessibility For Disabilities"
         ]
       },
       "put": {
@@ -2202,7 +2202,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Accessibility For Disabilities"
         ]
       },
       "delete": {
@@ -2233,7 +2233,7 @@
           }
         },
         "tags": [
-          "Locations"
+          "Location - Accessibility For Disabilities"
         ]
       }
     },
@@ -2707,7 +2707,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Contacts"
         ]
       },
       "post": {
@@ -2758,7 +2758,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Contacts"
         ]
       }
     },
@@ -2791,7 +2791,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Contacts"
         ]
       },
       "put": {
@@ -2842,7 +2842,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Contacts"
         ]
       },
       "delete": {
@@ -2873,7 +2873,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Contacts"
         ]
       }
     },
@@ -2901,7 +2901,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Funding"
         ]
       },
       "post": {
@@ -2937,7 +2937,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Funding"
         ]
       }
     },
@@ -2970,7 +2970,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Funding"
         ]
       },
       "put": {
@@ -3006,7 +3006,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Funding"
         ]
       },
       "delete": {
@@ -3037,7 +3037,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Funding"
         ]
       }
     },
@@ -3065,7 +3065,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Locations"
         ]
       },
       "post": {
@@ -3121,7 +3121,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Locations"
         ]
       }
     },
@@ -3154,7 +3154,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Locations"
         ]
       },
       "put": {
@@ -3210,7 +3210,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Locations"
         ]
       },
       "delete": {
@@ -3241,7 +3241,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Locations"
         ]
       }
     },
@@ -3263,7 +3263,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Phones"
         ]
       },
       "post": {
@@ -3314,7 +3314,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Phones"
         ]
       }
     },
@@ -3347,7 +3347,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Phones"
         ]
       },
       "put": {
@@ -3398,7 +3398,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Phones"
         ]
       },
       "delete": {
@@ -3429,7 +3429,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Phones"
         ]
       }
     },
@@ -3457,7 +3457,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Programs"
         ]
       },
       "post": {
@@ -3498,7 +3498,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Programs"
         ]
       }
     },
@@ -3531,7 +3531,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Programs"
         ]
       },
       "put": {
@@ -3572,7 +3572,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Programs"
         ]
       },
       "delete": {
@@ -3603,7 +3603,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Programs"
         ]
       }
     },
@@ -3631,7 +3631,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "post": {
@@ -3672,7 +3672,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       }
     },
@@ -3705,7 +3705,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "put": {
@@ -3746,7 +3746,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "delete": {
@@ -3777,7 +3777,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       }
     },
@@ -3805,7 +3805,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "post": {
@@ -3846,7 +3846,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       }
     },
@@ -3879,7 +3879,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "put": {
@@ -3920,7 +3920,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       },
       "delete": {
@@ -3951,7 +3951,7 @@
           }
         },
         "tags": [
-          "Organizations"
+          "Organization - Services"
         ]
       }
     },
@@ -4273,7 +4273,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Categories"
         ]
       }
     },
@@ -4295,7 +4295,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Contacts"
         ]
       },
       "post": {
@@ -4346,7 +4346,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Contacts"
         ]
       }
     },
@@ -4379,7 +4379,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Contacts"
         ]
       },
       "put": {
@@ -4430,7 +4430,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Contacts"
         ]
       },
       "delete": {
@@ -4461,7 +4461,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Contacts"
         ]
       }
     },
@@ -4489,7 +4489,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Eligibility"
         ]
       },
       "post": {
@@ -4525,7 +4525,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Eligibility"
         ]
       }
     },
@@ -4558,7 +4558,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Eligibility"
         ]
       },
       "put": {
@@ -4594,7 +4594,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Eligibility"
         ]
       },
       "delete": {
@@ -4625,7 +4625,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Eligibility"
         ]
       }
     },
@@ -4653,7 +4653,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Fees"
         ]
       },
       "post": {
@@ -4689,7 +4689,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Fees"
         ]
       }
     },
@@ -4722,7 +4722,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Fees"
         ]
       },
       "put": {
@@ -4758,7 +4758,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Fees"
         ]
       },
       "delete": {
@@ -4789,7 +4789,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Fees"
         ]
       }
     },
@@ -4817,7 +4817,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Funding"
         ]
       },
       "post": {
@@ -4853,7 +4853,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Funding"
         ]
       }
     },
@@ -4886,7 +4886,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Funding"
         ]
       },
       "put": {
@@ -4922,7 +4922,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Funding"
         ]
       },
       "delete": {
@@ -4953,7 +4953,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Funding"
         ]
       }
     },
@@ -4981,7 +4981,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Holiday Schedule"
         ]
       },
       "post": {
@@ -5037,7 +5037,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Holiday Schedule"
         ]
       }
     },
@@ -5070,7 +5070,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Holiday Schedule"
         ]
       },
       "put": {
@@ -5126,7 +5126,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Holiday Schedule"
         ]
       },
       "delete": {
@@ -5157,7 +5157,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Holiday Schedule"
         ]
       }
     },
@@ -5185,7 +5185,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Interpretation Services"
         ]
       },
       "post": {
@@ -5221,7 +5221,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Interpretation Services"
         ]
       }
     },
@@ -5254,7 +5254,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Interpretation Services"
         ]
       },
       "put": {
@@ -5290,7 +5290,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Interpretation Services"
         ]
       },
       "delete": {
@@ -5321,7 +5321,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Interpretation Services"
         ]
       }
     },
@@ -5349,7 +5349,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Languages"
         ]
       },
       "post": {
@@ -5385,7 +5385,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Languages"
         ]
       }
     },
@@ -5418,7 +5418,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Languages"
         ]
       },
       "put": {
@@ -5454,7 +5454,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Languages"
         ]
       },
       "delete": {
@@ -5485,7 +5485,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Languages"
         ]
       }
     },
@@ -5507,7 +5507,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Payment Accepted"
         ]
       },
       "post": {
@@ -5545,7 +5545,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Payment Accepted"
         ]
       }
     },
@@ -5578,7 +5578,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Payment Accepted"
         ]
       },
       "put": {
@@ -5619,7 +5619,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Payment Accepted"
         ]
       },
       "delete": {
@@ -5650,7 +5650,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Payment Accepted"
         ]
       }
     },
@@ -5678,7 +5678,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Phones"
         ]
       },
       "post": {
@@ -5729,7 +5729,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Phones"
         ]
       }
     },
@@ -5762,7 +5762,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Phones"
         ]
       },
       "put": {
@@ -5813,7 +5813,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Phones"
         ]
       },
       "delete": {
@@ -5844,7 +5844,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Phones"
         ]
       }
     },
@@ -5872,7 +5872,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Regular Schedule"
         ]
       },
       "post": {
@@ -5918,7 +5918,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Regular Schedule"
         ]
       }
     },
@@ -5951,7 +5951,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Regular Schedule"
         ]
       },
       "put": {
@@ -5997,7 +5997,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Regular Schedule"
         ]
       },
       "delete": {
@@ -6028,7 +6028,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Regular Schedule"
         ]
       }
     },
@@ -6056,7 +6056,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Required Document"
         ]
       },
       "post": {
@@ -6092,7 +6092,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Required Document"
         ]
       }
     },
@@ -6125,7 +6125,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Required Document"
         ]
       },
       "put": {
@@ -6161,7 +6161,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Required Document"
         ]
       },
       "delete": {
@@ -6192,7 +6192,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Required Document"
         ]
       }
     },
@@ -6220,7 +6220,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Areas"
         ]
       },
       "post": {
@@ -6256,7 +6256,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Areas"
         ]
       }
     },
@@ -6289,7 +6289,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Areas"
         ]
       },
       "put": {
@@ -6324,7 +6324,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Areas"
         ]
       },
       "delete": {
@@ -6344,7 +6344,7 @@
           }
         },
         "tags": [
-          "Services"
+          "Service - Areas"
         ]
       }
     }
