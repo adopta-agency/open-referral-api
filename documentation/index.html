@@ -236,7 +236,7 @@ layout: page
                           {% for grouptag in tagArray %}
 
                             <tr>
-                              <td colspan="3" style="padding-top: 10px;"><strong>{{ grouptag }}</strong></td>
+                              <td colspan="3" style="padding-top: 10px;">11<strong>{{ grouptag }}</strong></td>
                             </tr>
 
                             {% for spec in openapi_spec_json %}
@@ -248,6 +248,7 @@ layout: page
                                 {% assign filter_path = 1 %}
                                 {% for filter in api_filters %}
                                   {% assign this_filter_name = filter.name %}
+                                  {{ this_filter_name }} != {{ filter_name }}<br />
                                   {% if this_filter_name != filter_name %}
                                     {% for show in filter.path %}
                                       {{ this_path }} != {{ show }}<br />
