@@ -230,3 +230,18 @@ layout: page
       </td>
     </tr>
   </table>
+
+{% for definition in apijson.definitions %}
+
+  {% assign definition_name = definition[0] %}
+  {% assign definition = definition[1] %}
+  <strong>{{ definition_name }}</strong><br />
+  {% for property in definition.properties %}
+
+    {% assign property_name = property[0] %}
+    {% assign property = property[1] %}
+
+    {{ property_name }}<br />
+
+  {% endfor %}
+{% endfor %}
