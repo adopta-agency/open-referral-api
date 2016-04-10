@@ -86,15 +86,17 @@ layout: page
 
   <tr>
     <td>
-        <strong>API Documentation</strong>
-        {% if filter_name != null and filter_name != empty %}
-         - {{ filter_name }}
-        {% endif %}
+        <span style="font-size: 22px;"><strong>API Documentation</strong></span>
     </td>
   </tr>
   <tr>
     <td style="padding: 10px;">
       {{ apijson.description }}
+    </td>
+  </tr>
+  <tr>
+    <td align='center'>
+        (<a href="../index.html" style="font-size: 18px;">Full Documentation</a>)
     </td>
   </tr>
   <tr>
