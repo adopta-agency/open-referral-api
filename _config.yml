@@ -26,15 +26,15 @@ post_color: 0000ff;
 put_color: FF0080;
 delete_color: FF9900;
 
-org: kin-lane
-repo: api
-resource: api
+org: adopta-agency
+repo: open-referral-api
+resource: human
 oauthio: qUDL4eZqKPFb41SwuWIYIwLR6jI
 
 # Masthead title
 masthead_link: http://adopta-agency.github.io/open-referral-api/
 masthead_font_size: 85
-masthead_title: '{"API API"}'
+masthead_title: '{"Open Referral API"}'
 
 # Feature
 feature_title: API Design Providers Guide
