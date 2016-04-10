@@ -84,8 +84,8 @@ navigation:
     size2: 0
     padding: 2
     decorate: 0
-  - label1: Return to Master Portal
-    link1: http://developer.kinlane.com
+  - label1: Return to Open Referral
+    link1: http://openreferral.org
     size1: 80
     extend: 0
     label2:
