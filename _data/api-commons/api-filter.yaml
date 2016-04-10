@@ -1,0 +1,25 @@
+- name: Learn the Basics
+  filters:
+    - path: /categories
+    - path: /contacts
+    - path: /locations
+    - path: /metadata
+    - path: /organizations
+    - path: /search
+    - path: /services
+- name: Services Summary
+  filters:
+    - path: /services
+    - path: /services/:service_id/categories
+    - path: /services/:service_id/contacts
+    - path: /services/:service_id/eligibility/
+    - path: /services/:service_id/fees/
+    - path: /services/:service_id/funding/
+    - path: /services/:service_id/holiday_schedule/
+    - path: /services/:service_id/intepretation_services/
+    - path: /services/:service_id/languages/
+    - path: /services/:service_id/payment_accepted/
+    - path: /services/:service_id/phones
+    - path: /services/:service_id/regular_schedule
+    - path: /services/:service_id/required_document/
+    - path: /services/:service_id/service_area/

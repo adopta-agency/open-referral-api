@@ -1,0 +1,49 @@
+---
+layout: page
+title: The API Stack
+---
+
+<div id="stack-cloud" class="wordcloud" style="height: 400px;"></div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	$.getJSON('data/companies.json', function(companies) {
+
+		$.getJSON('data/tags.json', function(data) {
+
+			tagcount = data['tags'].length;
+			companycount = companies.length;
+			//document.getElementById("summary-count").innerHTML = companycount + ' companies in ' + tagcount + ' arenas';
+
+			$.each(data['tags'], function(key, val) {
+
+				tag = val['tag'];
+				name = val['name'];
+				slug = val['slug'];
+				companycount = val['company-count'];
+
+				html = '<span data-weight="' + companycount + '"><a href="stack.html?tag=' + slug + '">' + name + '</a></span>';
+				$('#stack-cloud').append(html);
+
+			});
+
+			$("#stack-cloud").awesomeCloud({
+				"size" : {
+					"grid" : 7,
+					"factor" : 3
+				},
+				"options" : {
+					"color" : "random-dark",
+					"rotationRatio" : 0
+				},
+				"font" : "'Times New Roman', Times, serif",
+				"shape" : "circle"
+			});
+
+		});
+
+	});
+});
+</script>

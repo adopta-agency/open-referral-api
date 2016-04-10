@@ -121,7 +121,6 @@ layout: page
                       {% endif %}
 
                       {% if property.type == 'x-openapi-spec' %}
-
                         {% assign openapi_spec_url = property.url %}
                         {% assign pathname = openapi_spec_url | replace: '_data/api-commons/','' %}
                         {% assign pathname = pathname | replace: '.yaml','' %}
@@ -136,7 +135,6 @@ layout: page
                             {% assign openapi_spec_json = thisentry %}
                           {% endif %}
                         {% endfor %}
-
                       {% endif %}
 
                       {% if property.type == 'x-postman %}
@@ -151,22 +149,10 @@ layout: page
                         {% assign api_action_url = property.url %}
                       {% endif %}
 
-                      {% if property.type == 'x-api-filters' %}
-                        {% assign api_filters = property.url %}
-                        {% assign api_filter_path = api_filters | replace: '_data/api-commons/','' %}
-                        {% assign api_filter_path = api_filter_path | replace: '.yaml','' %}
-                        {% assign api_filter_path = api_filter_path | replace: '.json','' %}
-                        {% assign api_filter_path = api_filter_path | replace: '/','.' %}
-                        {% assign api_filter_path = api_filter_path | replace: 'api-commons.','' %}
-                      {% endif %}
-
                     {% endfor %}
 
                     <tr style="background-color: #D3D3D3;">
-                      <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">
-                        {{ api.name }}
-                        {{ api_filters }} - {{ api_filter_path}}
-                      </td>
+                      <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">{{ api.name }}</td>
                       <td align="right" style="padding: 10px;">
                         {% if openapi_spec_url != null and openapi_spec_url != empty %}
                           <a href="{{ site.url }}{{ openapi_spec_url }}" target="_blank" title="View OpenAPI Spec" style="font-size: 16px; font-weight: normal;">OpenAPI Spec</a>
@@ -226,13 +212,9 @@ layout: page
                                   {% assign summary = method[1].summary %}
 
                                   {% if tag == grouptag %}
-                                    <tr>
-                                      <td style="padding-left: 20px; font-size: 12px;">{{ summary }}</td>
-                                      <td style="font-size: 12px;">{{ path[0] }}</td>
-                                      <td align="center" style="padding: 5px; width: 75px; background-color:#{{ back_color }}; font-weight: bold; font-size: 11px; color: #FFF;">
-                                        {{ verb }}
-                                      </td>
-                                    </tr>
+
+                                    {{ summary }}<br />
+                                    
                                   {% endif %}
 
                                 {% endfor %}
@@ -241,47 +223,5 @@ layout: page
 
                           {% endfor %}
 
-                          <tr style="background-color: #D3D3D3;">
-                            <td colspan="3"></td>
-                          </tr>
-                        <tr style="background-color: #D3D3D3;">
-                          <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">Entities</td>
-                          <td colspan="2" align="right" style="padding: 10px;">
-                            {% if json_schema_url != null and json_schema_url != empty %}
-                              <a href="{{ site.url }}{{ json_schema_url }}" target="_blank" title="View JSON Schema" style="font-size: 16px; font-weight: normal;">JSON Schema</a>
-                            {% endif %}
-                          </td>
-                        </tr>
-                        {% assign taglist = '' %}
-                        {% for spec in openapi_spec_json %}
-                          {% for definition in spec.definitions %}
-                            {% assign definition_name = definition[0] %}
-                            {% assign fields = definition[1] %}
-                            <tr>
-                              <td style="padding-left: 10px; padding-top: 10px;">
-                                <strong>{{ definition_name }}</strong>
-                                <ul style='padding-left: 25px; margin-top:5px;'>
-                                {% for property in fields.properties %}
-                                  {% assign property_name = property[0] %}
-                                  {% assign property = property[1] %}
-                                  <li>{{ property_name }}</li>
-                                {% endfor %}
-                              </ul>
-                              </td>
-                              <td align="right" style="padding: 10px;"></td>
-                              <td align="right" style="padding: 10px;"></td>
-                            </tr>
-                          {% endfor %}
-                        {% endfor %}
 
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
                 {% endfor %}
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>

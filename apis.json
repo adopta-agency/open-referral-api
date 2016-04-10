@@ -26,6 +26,14 @@
         {
           "type": "x-openapi-spec",
           "url": "api-commons/openapi-spec.json"
+        },
+        {
+          "type": "x-json-schema",
+          "url": "api-commons/schema.json"
+        },
+        {
+          "type": "x-api-filters",
+          "url": "api-commons/api-filter.json"
         }
       ]
     }
