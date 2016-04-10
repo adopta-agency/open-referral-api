@@ -1,0 +1,122 @@
+---
+layout: page
+title: Plans
+---
+<table cellpadding="3" cellspacing="2" width="100%" border="0">
+
+{% assign index = site.data.apis %}
+{% assign apijson = index[0] %}
+{% assign contents = site.data.api-commons %}
+{% assign apicommons = contents %}
+
+{% assign blog_url = '' %}
+{% assign blogrss_url = '' %}
+{% assign portal_url = '' %}
+{% assign gitub_url = '' %}
+{% assign twitter_url = '' %}
+{% assign website_url = '' %}
+
+{% for common in apijson.x-common %}
+  {% if common.type == 'x-blog' %}
+    {% assign blog_url = common.url %}
+  {% endif %}
+  {% if common.type == 'x-blog-rss-feed' %}
+    {% assign blogrss_url = common.url %}
+  {% endif %}
+  {% if common.type == 'x-portal' %}
+    {% assign portal_url = common.url %}
+  {% endif %}
+  {% if common.type == 'x-github' %}
+    {% assign gitub_url = common.url %}
+  {% endif %}
+  {% if common.type == 'x-twitter' %}
+    {% assign twitter_url = common.url %}
+  {% endif %}
+{% endfor %}
+
+{% if apisjson.humanURL == null %}
+  {% assign website_url = portal_url %}
+{% else %}
+  {% assign website_url = apisjson.humanURL %}
+{% endif %}
+
+  <tr>
+    <td align="center">
+
+      {% for api in apijson.x-common %}
+
+          {% assign thisname = apijson.name | downcase %}
+          {% assign thisname = thisname | append:'/' %}
+          {% assign thisname = thisname | replace: ' ','-' %}
+
+          {% if api.type == 'x-api-plan' %}
+
+            {% assign api_plan_url = api.url %}
+            {% assign pathname = api_plan_url | replace: '_data/api-commons/','' %}
+            {% assign pathname = pathname | replace: '.yaml','' %}
+            {% assign pathname = pathname | replace: '.json','' %}
+            {% assign pathname = pathname | replace: '/','.' %}
+            {% assign pathname = pathname | replace: 'api-commons.','' %}
+
+            {% for entry in apicommons %}
+              {% assign thisname = entry[0] %}
+              {% assign thisentry = entry[1] %}
+              {% if thisname == pathname %}
+                {% assign api_plan_json = thisentry %}
+              {% endif %}
+            {% endfor %}
+
+            <table cellpadding="3" cellspacing="2" width="95%" style="margin-bottom: 20px; padding-left: 20px; padding-right: 20px;">
+
+              {% assign api_plan_json = api_plan_json[0] %}
+              {% for plan in api_plan_json.plans %}
+
+                  {% assign entries = plan.entries %}
+
+                  <tr>
+                    <td colspan="12" style="padding-top: 5px; padding-bottom: 10px;"><strong>{{ plan.name }}</strong></td>
+                  </tr>
+
+                  <!--<tr style="font-size: 12px; font-weight: bold;">
+                    <td>label</td>
+                    <td>description</td>
+                    <td>metric</td>
+                    <td>limit</td>
+                    <td>timeframe</td>
+                    <td>geo</td>
+                    <td>element</td>
+                    <td>one</td>
+                    <td>two</td>
+                    <td align="right">unit</td>
+                  </tr>-->
+
+                  {% for entry in entries %}
+
+                    <tr style="font-size: 11px;">
+                      <td style="width: 25px;"></td>
+                      <td style="padding: 5px;">{{ entry.label }}</td>
+                      <td>{{ entry.description }}</td>
+                      <td>{{ entry.metric }}</td>
+                      <td>{{ entry.limit }}</td>
+                      <td>{{ entry.timeframe }}</td>
+                      <td>{{ entry.geo }}</td>
+                      <td>{{ entry.element }}</td>
+                      <td align="center">{{ entry.one }}</td>
+                      <td align="center">{{ entry.two }}</td>
+                      <td align="right">{{ entry.unit }}</td>
+                      <td style="width: 25px;"></td>
+                    </tr>
+
+                  {% endfor %}
+
+              {% endfor %}
+
+          </table>
+
+          {% endif %}
+
+      {% endfor %}
+
+    </td>
+  </tr>
+</table>

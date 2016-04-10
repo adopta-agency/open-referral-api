@@ -1,0 +1,929 @@
+---
+layout: page
+title: Status
+---
+
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+<script src="//code.highcharts.com/highcharts.js"></script>
+
+<script>
+  (function() {
+    var ajaxGetDailyPerformanceData, ajaxGetDailyUptimeData, ajaxGetMonitorDetails, ajaxGetWeeklyPerformanceData, ajaxGetWeeklyUptimeData, dateRangeCalculator, drawDailyPerformanceChart, drawDailyUptimeChart, drawMonitorDetailsTable, drawMonitorOverview, drawPerformanceDetails, drawUptimeDetails, drawWeeklyPerformanceChart, drawWeeklyUptimeChart, last7DaysLabels, monitorId, monitorsOverviewStatusPage, printWeeklyUptimeChart, singleMonitorStatusPage, token;
+
+    $(function() {
+      if ($('#status_page_index').length > 0) {
+        monitorsOverviewStatusPage();
+      }
+      if ($('#status_page_detail').length > 0) {
+        return singleMonitorStatusPage();
+      }
+    });
+
+    token = function() {
+      return $('#api-key').text();
+    };
+
+    monitorId = function() {
+      return $('#monitor-id').text();
+    };
+
+    last7DaysLabels = function() {
+      var curr, days, first, formatted, i, monthNames, next;
+      i = 0;
+      curr = new Date;
+      first = curr.getDate();
+      days = [];
+      monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+      while (i < 7) {
+        next = new Date(curr.getTime());
+        next.setDate(first - i);
+        formatted = monthNames[next.getMonth()] + " " + next.getDate();
+        days.push(formatted);
+        i++;
+      }
+      return days.reverse();
+    };
+
+    Number.prototype.toFixedDown = function(digits) {
+      var m, re;
+      re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)");
+      m = this.toString().match(re);
+      if (m) {
+        return parseFloat(m[1]);
+      } else {
+        return this.valueOf();
+      }
+    };
+
+    singleMonitorStatusPage = function() {
+      var labels;
+      labels = last7DaysLabels();
+      $('#status_page_uptime_details thead th').each(function(index) {
+        return $(this).text(labels[index]);
+      });
+      ajaxGetMonitorDetails().done(function(data) {
+        return drawMonitorDetailsTable(data);
+      });
+      ajaxGetDailyPerformanceData().done(function(data) {
+        data.data.reverse();
+        return drawDailyPerformanceChart(data);
+      });
+      ajaxGetWeeklyPerformanceData().done(function(data) {
+        data.data.reverse();
+        return drawWeeklyPerformanceChart(data);
+      });
+      ajaxGetWeeklyUptimeData().done(function(data) {
+        data.data.reverse();
+        printWeeklyUptimeChart(data);
+        return drawWeeklyUptimeChart(data);
+      });
+      return ajaxGetDailyUptimeData().done(function(data) {
+        data.data.reverse();
+        return drawDailyUptimeChart(data);
+      });
+    };
+
+    ajaxGetMonitorDetails = function() {
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + monitorId() + ".json",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      });
+    };
+
+    ajaxGetDailyPerformanceData = function() {
+      var endPeriod, startPeriod, _ref;
+      _ref = dateRangeCalculator('day'), startPeriod = _ref[0], endPeriod = _ref[1];
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + monitorId() + "/performance.json?preset=lastDay",
+        headers: {
+          Authorization: "Bearer " + token()
+        },
+        data: {
+          start: startPeriod,
+          end: endPeriod
+        }
+      });
+    };
+
+    ajaxGetWeeklyPerformanceData = function() {
+      var endPeriod, startPeriod, _ref;
+      _ref = dateRangeCalculator('week'), startPeriod = _ref[0], endPeriod = _ref[1];
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + monitorId() + "/performance.json?preset=lastWeek",
+        headers: {
+          Authorization: "Bearer " + token()
+        },
+        data: {
+          start: startPeriod,
+          end: endPeriod
+        }
+      });
+    };
+
+    ajaxGetWeeklyUptimeData = function() {
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + monitorId() + "/uptime.json?preset=lastWeek",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      });
+    };
+
+    ajaxGetDailyUptimeData = function() {
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + monitorId() + "/uptime.json?preset=lastDay",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      });
+    };
+
+    printWeeklyUptimeChart = function(data) {
+      var i, item, listItem, monitor, status, uptime;
+      monitor = data.data;
+      listItem = $('#status_page_uptime_details .copy');
+      item = listItem.clone();
+      item.children('.name').text(data.name);
+      i = 0;
+      while (i < 7) {
+        if (monitor[i].uptime) {
+          uptime = (parseFloat(monitor[i].uptime));
+          if (uptime >= 99.7) {
+            status = 'green';
+          } else if (uptime >= 99.0) {
+            status = 'yellow';
+          } else {
+            status = 'red';
+          }
+        } else {
+          status = 'gray';
+        }
+        item.find('.up' + (i + 1) + ' .circle').addClass(status);
+        item.removeClass('copy').show();
+        $('#status_page_uptime_details').append(item);
+        i++;
+      }
+      return $('#status_page_uptime_details .copy').hide();
+    };
+
+    drawWeeklyUptimeChart = function(data) {
+      var dates, uptime;
+      data = data.data;
+      dates = _.map(data, function(period) {
+        var date, readable;
+        date = new Date(period.startPeriod);
+        return readable = (date.getMonth() + 1) + "/" + date.getDate();
+      });
+      uptime = _.map(data, function(period) {
+        if (period.uptime) {
+          return (period.uptime).toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      return $('#uptime-weekly-chart').highcharts({
+        chart: {
+          type: 'area'
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          categories: dates,
+          tickInterval: 1,
+          labels: {
+            align: 'right',
+            step: 2
+          }
+        },
+        yAxis: {
+          title: {
+            text: '%'
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }
+          ],
+          min: 0,
+          max: 100
+        },
+        tooltip: {
+          valueSuffix: '%'
+        },
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom',
+          borderWidth: 0
+        },
+        series: [
+          {
+            name: "Uptime",
+            data: uptime
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      });
+    };
+
+    drawDailyUptimeChart = function(data) {
+      var dates, uptime;
+      dates = _.map(data.data, function(period) {
+        var date, readable;
+        date = new Date(period.startPeriod);
+        return readable = (date.getHours() + 1) + ":00";
+      });
+      uptime = _.map(data.data, function(period) {
+        if (period.uptime) {
+          return (period.uptime).toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      return $('#uptime-day-chart').highcharts({
+        chart: {
+          type: 'area'
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          categories: dates,
+          tickInterval: 4
+        },
+        yAxis: {
+          title: {
+            text: '%'
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }
+          ],
+          min: 0,
+          max: 100
+        },
+        tooltip: {
+          valueSuffix: '%'
+        },
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom',
+          borderWidth: 0
+        },
+        series: [
+          {
+            name: "Uptime",
+            data: uptime
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      });
+    };
+
+    drawWeeklyPerformanceChart = function(data) {
+      var connect, dates, processing, resolve, transfer;
+      dates = _.map(data.data, function(period) {
+        var date, readable;
+        date = new Date(period.startPeriod);
+        return readable = (date.getMonth() + 1) + "/" + date.getDate();
+      });
+      resolve = _.map(data.data, function(period) {
+        if (period.averageResolve) {
+          return period.averageResolve.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      connect = _.map(data.data, function(period) {
+        if (period.averageConnect) {
+          return period.averageConnect.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      processing = _.map(data.data, function(period) {
+        if (period.averageProcessing) {
+          return period.averageProcessing.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      transfer = _.map(data.data, function(period) {
+        if (period.averageTransfer) {
+          return period.averageTransfer.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      return $('#performance-chart').highcharts({
+        chart: {
+          type: 'area'
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          categories: dates,
+          tickInterval: 1,
+          labels: {
+            align: 'right',
+            step: 2
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'ms'
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }
+          ],
+          min: 0,
+          minRange: 100
+        },
+        tooltip: {
+          valueSuffix: 'ms'
+        },
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom',
+          borderWidth: 0,
+          reversed: true
+        },
+        series: [
+          {
+            name: "Transfer",
+            data: transfer
+          }, {
+            name: "Processing",
+            data: processing
+          }, {
+            name: "Connect",
+            data: connect
+          }, {
+            name: "Resolve",
+            data: resolve
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      });
+    };
+
+    drawDailyPerformanceChart = function(data) {
+      var connect, dates, processing, resolve, transfer;
+      dates = _.map(data.data, function(period) {
+        var date, readable;
+        date = new Date(period.startPeriod);
+        return readable = (date.getHours() + 1) + ":00";
+      });
+      resolve = _.map(data.data, function(period) {
+        if (period.averageResolve) {
+          return period.averageResolve.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      connect = _.map(data.data, function(period) {
+        if (period.averageConnect) {
+          return period.averageConnect.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      processing = _.map(data.data, function(period) {
+        if (period.averageProcessing) {
+          return period.averageProcessing.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      transfer = _.map(data.data, function(period) {
+        if (period.averageTransfer) {
+          return period.averageTransfer.toFixedDown(2);
+        } else {
+          return {
+            y: 0,
+            color: 'gray',
+            marker: {
+              fillColor: 'gray'
+            },
+            name: "No data"
+          };
+        }
+      });
+      return $('#daily-performance-chart').highcharts({
+        chart: {
+          type: 'area'
+        },
+        plotOptions: {
+          series: {
+            stacking: 'normal'
+          }
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          categories: dates,
+          tickInterval: 4
+        },
+        yAxis: {
+          title: {
+            text: 'ms'
+          },
+          plotLines: [
+            {
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }
+          ],
+          min: 0,
+          minRange: 100
+        },
+        tooltip: {
+          valueSuffix: 'ms'
+        },
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'bottom',
+          borderWidth: 0,
+          reversed: true
+        },
+        series: [
+          {
+            name: "Transfer",
+            data: transfer
+          }, {
+            name: "Processing",
+            data: processing
+          }, {
+            name: "Connect",
+            data: connect
+          }, {
+            name: "Resolve",
+            data: resolve
+          }
+        ],
+        credits: {
+          enabled: false
+        }
+      });
+    };
+
+    dateRangeCalculator = function(range) {
+      var e, endPeriod, s, startPeriod;
+      s = new Date();
+      if (range === 'week') {
+        s = new Date(s.setDate(s.getDate() - 7));
+      } else if (range === 'day') {
+        s = new Date(s.setDate(s.getDate() - 1));
+      }
+      e = new Date();
+      startPeriod = s.getFullYear() + "-" + (s.getMonth() + 1) + "-" + s.getDate();
+      endPeriod = e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate();
+      return [startPeriod, endPeriod];
+    };
+
+    monitorsOverviewStatusPage = function() {
+      var labels;
+      labels = last7DaysLabels();
+      $('#status_page_uptime_details thead th').each(function(index) {
+        if (index === 0) {
+          return null;
+        }
+        return $(this).text(labels[index - 1]);
+      });
+      $('#status_page_performance_details thead th').each(function(index) {
+        if (index === 0) {
+          return null;
+        }
+        return $(this).text(labels[index - 1]);
+      });
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors.json",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      }).done(function(data) {
+        return drawMonitorOverview(data);
+      });
+    };
+
+    drawMonitorOverview = function(data) {
+      var listItem;
+      listItem = $("#status_page_index .copy");
+      _.each(data.data, function(monitor) {
+        var date, day, hours, item, lastCheck, minutes, month, peformance, status, uptime;
+        item = listItem.clone();
+        uptime = (parseFloat(monitor.summary.uptime));
+        if (uptime >= 99.7) {
+          status = 'green';
+        } else if (uptime >= 99.0) {
+          status = 'yellow';
+        } else {
+          status = 'red';
+        }
+        if (monitor.summar.status === 'no_data') {
+          status = 'gray';
+        }
+        if (monitor.summary.status === 'no_data') {
+          uptime = 'No data';
+        } else {
+          uptime = uptime.toFixedDown(2) + "%";
+        }
+        date = new Date(monitor.summary.lastCheckedAt);
+        month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+        day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+        minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+        lastCheck = date.getFullYear() + "/" + month + "/" + day + "&nbsp;&nbsp;" + hours + ":" + minutes;
+        if (monitor.summary.status === 'no_data') {
+          lastCheck = 'No data';
+        }
+        if (monitor.summary.status === 'no_data') {
+          peformance = 'No data';
+        } else {
+          peformance = monitor.summary.performance.toFixedDown(2) + "ms";
+        }
+        item.children('.status').children('.circle').addClass(status);
+        item.children('.name').html('<a href="http://localhost:5000/monitors/' + monitor.id + '/status_page">' + monitor.name + "</a>");
+        item.children('.performance').text(peformance);
+        item.children('.uptime').text(uptime);
+        item.children('.last_check').html(lastCheck);
+        item.removeClass('copy');
+        $('#status_page_index').append(item);
+        drawUptimeDetails(monitor);
+        return drawPerformanceDetails(monitor);
+      });
+      return listItem.hide();
+    };
+
+    drawUptimeDetails = function(data) {
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + data.id + "/uptime.json?preset=lastWeek",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      }).done(function(f) {
+        var i, item, listItem, monitor, status, uptime;
+        monitor = f.data;
+        monitor = monitor.reverse();
+        listItem = $('#status_page_uptime_details .copy');
+        item = listItem.clone();
+        item.children('.name').text(data.name);
+        i = 0;
+        while (i < 7) {
+          if (monitor[i].uptime) {
+            uptime = (parseFloat(monitor[i].uptime));
+            if (uptime >= 99.7) {
+              status = 'green';
+            } else if (uptime >= 99.0) {
+              status = 'yellow';
+            } else {
+              status = 'red';
+            }
+          } else {
+            status = 'gray';
+          }
+          item.find('.up' + (i + 1) + ' .circle').addClass(status);
+          item.removeClass('copy').show();
+          $('#status_page_uptime_details').append(item);
+          i++;
+        }
+        $('#status_page_uptime_details .copy').hide();
+        if (data.chart === true) {
+          return drawUptimeChart(monitor);
+        }
+      });
+    };
+
+    drawPerformanceDetails = function(data) {
+      var e, endPeriod, s, startPeriod;
+      s = new Date();
+      s = new Date(s.setDate(s.getDate() - 7));
+      e = new Date();
+      startPeriod = s.getFullYear() + "-" + (s.getMonth() + 1) + "-" + s.getDate();
+      endPeriod = e.getFullYear() + "-" + (e.getMonth() + 1) + "-" + e.getDate();
+      return $.ajax({
+        url: "https://api.apiscience.com/v1/monitors/" + data.id + "/performance.json?preset=lastWeek",
+        headers: {
+          Authorization: "Bearer " + token()
+        }
+      }).done(function(f) {
+        var item, listItem, monitor, point1, point2, point3, point4, point5, point6, point7;
+        monitor = f.data;
+        listItem = $('#status_page_performance_details .copy');
+        item = listItem.clone();
+        item.children('.name').text(data.name);
+        point1 = monitor[6].averageTotal === null ? "No data" : monitor[6].averageTotal.toFixedDown(2) + "ms";
+        point2 = monitor[5].averageTotal === null ? "No data" : monitor[5].averageTotal.toFixedDown(2) + "ms";
+        point3 = monitor[4].averageTotal === null ? "No data" : monitor[4].averageTotal.toFixedDown(2) + "ms";
+        point4 = monitor[3].averageTotal === null ? "No data" : monitor[3].averageTotal.toFixedDown(2) + "ms";
+        point5 = monitor[2].averageTotal === null ? "No data" : monitor[2].averageTotal.toFixedDown(2) + "ms";
+        point6 = monitor[1].averageTotal === null ? "No data" : monitor[1].averageTotal.toFixedDown(2) + "ms";
+        point7 = monitor[0].averageTotal === null ? "No data" : monitor[0].averageTotal.toFixedDown(2) + "ms";
+        item.children('.up1').text(point1);
+        item.children('.up2').text(point2);
+        item.children('.up3').text(point3);
+        item.children('.up4').text(point4);
+        item.children('.up5').text(point5);
+        item.children('.up6').text(point6);
+        item.children('.up7').text(point7);
+        item.removeClass('copy').show();
+        $('#status_page_performance_details').append(item);
+        return $('#status_page_performance_details .copy').hide();
+      });
+    };
+
+    drawMonitorDetailsTable = function(data) {
+      var date, day, hours, lastCheck, minutes, monitor, month, peformance, row, status, uptime;
+      monitor = data.data;
+      row = $('#single-monitor-details');
+      uptime = (parseFloat(monitor.summary.uptime));
+      if (uptime >= 99.7) {
+        status = 'green';
+      } else if (uptime >= 99.0) {
+        status = 'yellow';
+      } else {
+        status = 'red';
+      }
+      if (monitor.summary.status === 'no_data') {
+        status = 'gray';
+      }
+      if (monitor.summary.status === 'no_data') {
+        uptime = 'No data';
+      } else {
+        uptime = uptime.toFixedDown(2) + "%";
+      }
+      date = new Date(monitor.summary.lastCheckedAt);
+      month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+      day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      lastCheck = date.getFullYear() + "/" + month + "/" + day + "&nbsp;&nbsp;" + hours + ":" + minutes;
+      if (monitor.summary.status === 'no_data') {
+        lastCheck = 'No data';
+      }
+      if (monitor.summary.status === 'no_data') {
+        peformance = 'No data';
+      } else {
+        peformance = monitor.summary.performance.toFixedDown(2) + "ms";
+      }
+      row.children('.status').children('.circle').addClass(status);
+      row.children('.name').text(monitor.name);
+      row.children('.performance').text(peformance);
+      row.children('.uptime').text(uptime);
+      return row.children('.last_check').html(lastCheck);
+    };
+
+  }).call(this);
+</script>
+
+<style>
+  #apiscience-status-page .circle {
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin: auto;
+    position: relative;
+    top: 1px;
+  }
+
+  #apiscience-status-page .circle.red {
+    background-color: red;
+  }
+
+  #apiscience-status-page .circle.yellow {
+    background-color: yellow;
+  }
+
+  #apiscience-status-page .circle.green {
+    background-color: green;
+  }
+
+  #apiscience-status-page .circle.gray {
+    background-color: gainsboro;
+  }
+
+  #apiscience-status-page {
+    width: 769px;
+    margin: auto;
+  }
+
+  #apiscience-status-page table {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+
+  #apiscience-status-page table thead {
+    background-color: #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #apiscience-status-page table thead > tr > th {
+    text-align: left;
+    text-transform: uppercase;
+    padding: 9px 12px;
+  }
+
+  #apiscience-status-page table tbody > tr > td {
+    padding: 9px 12px;
+    min-height: 40px;
+  }
+
+  #apiscience-status-page div.columns-2 .column {
+    width: 50%;
+    float: left;
+  }
+
+  #apiscience-status-page div.columns-2 .graph {
+    width: 100%;
+    height: 300px;
+  }
+
+  #apiscience-status-page .hidden {
+    display: none;
+  }
+</style>
+
+<div id="apiscience-status-page">
+  <div class="hidden" id="api-key">5yW1_HFQe395wpLgZiee1g</div>
+  <div class="hidden" id="monitor-id">1571054</div>
+
+  <h2 id="status_page_detail"></h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th style="width: 8px;"></th>
+        <th style="padding-left: 2px;">Name</th>
+        <th>Performance</th>
+        <th>Uptime</th>
+        <th>Last Check</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="single-monitor-details">
+        <td class="status"><div class="circle"></div></td>
+        <td style="padding-left: 2px;" class="name"></td>
+        <td class="performance"></td>
+        <td class="uptime"></td>
+        <td class="last_check"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br />
+
+  <h4>Availability History</h4>
+  <table id="status_page_uptime_details" class="table">
+    <thead>
+      <tr>
+        <th class="date1" style="text-align: center"></th>
+        <th class="date2" style="text-align: center"></th>
+        <th class="date3" style="text-align: center"></th>
+        <th class="date4" style="text-align: center"></th>
+        <th class="date5" style="text-align: center"></th>
+        <th class="date6" style="text-align: center"></th>
+        <th class="date7" style="text-align: center"></th>
+      </tr>
+    </thead>
+    <tr class="copy">
+      <td class="up1"><div class="circle"></div></td>
+      <td class="up2"><div class="circle"></div></td>
+      <td class="up3"><div class="circle"></div></td>
+      <td class="up4"><div class="circle"></div></td>
+      <td class="up5"><div class="circle"></div></td>
+      <td class="up6"><div class="circle"></div></td>
+      <td class="up7"><div class="circle"></div></td>
+    </tr>
+  </table>
+
+  <br />
+
+  <div class="columns-2">
+    <div class="column  column-left">
+      <h4>Daily Uptime</h4>
+      <div class="graph" id="uptime-day-chart"></div>
+    </div>
+    <div class="column column-right">
+      <h4>Weekly Uptime</h4>
+      <div  class="graph" id="uptime-weekly-chart"></div>
+    </div>
+  </div>
+
+  <div class="columns-2">
+    <div class="column column-left">
+      <h4>Daily Performance</h4>
+      <div class="graph" id="daily-performance-chart"></div>
+    </div>
+    <div class="column column-right">
+      <h4>Weekly Performance</h4>
+      <div class="graph" id="performance-chart"></div>
+    </div>
+  </div>
+</div>
+
+<p align="center"><a href="http://bit.ly/1rg9WQk"><img src="https://s3.amazonaws.com/kinlane-productions/api-evangelist/api-science/api-science-logo.png" width="250" /></a></p>

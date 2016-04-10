@@ -1,0 +1,115 @@
+- coupling: "2"
+  name: Kin Lane
+  host: api.kinlane.com
+  baseurl: /
+  pages: []
+  elements: []
+  timeframes: []
+  metrics: []
+  geo: []
+  limits: []
+  resources: []
+  extensions: []
+  plans:
+  - name: Public
+    description: ""
+    entries:
+    - label: Free
+      description: This is the entry level tier.
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Free
+      one: "0"
+      two: "500"
+      unit: "0"
+    - label: Beyond
+      description: This is the rate beyond.
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Commercial
+      one: "501"
+      two: "100,000"
+      unit: "0.005"
+    elements:
+    - name: Wholesale
+    - name: Educational
+    - name: Government
+  - name: Retail
+    description: ""
+    entries:
+    - label: Free
+      description: This is the entry level tier.
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Free
+      one: "0"
+      two: "500"
+      unit: "0"
+    - label: Beyond
+      description: This is the rate beyond.
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Commercial
+      one: "501"
+      two: "250,000"
+      unit: "0.001"
+    elements:
+    - name: Wholesale
+    - name: Government
+    - name: Educational
+  - name: Trusted
+    description: ""
+    entries:
+    - label: Negotiated
+      description: Trusted access level is after someone gets to know me.
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Commercial
+      one: "0"
+      two: "100,000"
+      unit: "0"
+    elements:
+    - name: Wholesale
+    - name: Educational
+    - name: Government
+  - name: Partner
+    description: ""
+    entries:
+    - label: Negotiated
+      description: The level of access for my partners
+      metric: CAll
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Commercial
+      one: "0"
+      two: "100,000"
+      unit: "0"
+    elements:
+    - name: Wholesale
+    - name: Educational
+    - name: Government
+  - name: Platform
+    description: ""
+    entries:
+    - label: Top Dog
+      description: This is the level of access if you work at API Evangelist
+      metric: Call
+      limit: Range
+      timeframe: Daily
+      geo: ""
+      element: Commercial
+      one: "0"
+      two: "100,000,000"
+      unit: "0"
+    elements: []

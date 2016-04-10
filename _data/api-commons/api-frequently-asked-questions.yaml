@@ -1,0 +1,33 @@
+- title: Frequently Asked Questions
+  image: http://kinlane-productions.s3.amazonaws.com/api-evangelist-site/building-blocks/bw-question-mark.png
+  header: These are the questions I get asked the most when people are getting up and running using my APIs. I try to provide answers to most of the challenges you will face, to encourage you to do everything on your own.
+  footer: If you do not find the answer you are looking for, head over to the support page, and hit me up via one of the supported channels. I encourage you to use the Github issues for this repo, so we can keep the history for others to learn from.
+  categories:
+    - category: General
+      questions:
+        - question: Who is Kin Lane?
+          answer: I am the API Evangelist, an analyst and engineer who focuses exclusively on the world of APIs.
+        - question: Why do you have APIs?
+          answer: Everyone should have APIs, not just the Twitters of the world. I have APIs to help practice what I preach, and make my research open and accessible to everyone.
+        - question: What can I build with the APIs?
+          answer: That is up to you. I have APis to empower you with access to my research, what you build should benefit your world, as well as the wider API community.
+    - category: Support
+      questions:
+        - question: What is the best way to get support?
+          answer: The best way is to submit a Github issue for the master API stack, or via the Github repository for each API. I try to keep API specific issues local to each API, and wider conversations via the portal.
+        - question: Why did it take a couple days to get response?
+          answer: I am a one man show, and sometimes I can get to issue immediately and sometimes it takes me time. If it is mission critical, I will make time, but otherwise I queue things up.
+        - question: Can I email you?
+          answer: Sure you can, but remember that I do not always check email each day, as sometimes I tune it out to be more productive in my research. I priotize Github issues and Tweets a little differently.
+        - question: Can I talk to you on the phone?
+          answer: I take calls on Thursday, and have open office hours. Schedule something ahead of time and I'm happy to carve ou the time.
+    - category: Legal
+      questions:
+        - question: Can I use your images?
+          answer: All of my content is licensed CC-BY-SA. All I ask for is attribution when it makes sense.
+        - question: Can I use repost your stories?
+          answer: All of my content is licensed CC-BY-SA. All I ask for is attribution when it makes sense.
+        - question: How is your code licensed?
+          answer: All code I produce tends to live in Github repository, and usually post licensing within each project--which is usually Apache 2.0.
+        - question: Can I use your API designs?
+          answer: All of my APIs are licensed CC-BY-SA as well using API Commons--feel free to re-use all my designs.

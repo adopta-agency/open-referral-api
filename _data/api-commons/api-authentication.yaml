@@ -1,0 +1,9 @@
+- title: Authentication
+  image: https://s3.amazonaws.com/kinlane-productions/bw-icons/bw-key-circle.png
+  header: I purposely do not get into the business of managing personally identifiable information (PII), staying focused on a wealth of open data, content, and other resource APIs. Since I avoid PII, I do not use OAuth across my APIs, and just use an app id / secret combination for access all APIs.
+  footer: I do not require keys to access APIs to restrict acces, and focus on doing it to help keep resources available, and stable, while also sometime generating revenue to cover costs, and make a little sumth'n sumth'n on the site. ;-) I also purposely keep my API keys in the URL to make it easier for people to onboard, but will also be allowing for passing in the header for those people who are little more concerned.
+  keys:
+    - name: appid
+      description: Your application id issued via your platform account.
+    - name: appkey
+      description: Your application id issued via your platform account.

@@ -1,0 +1,24 @@
+---
+layout: page
+---
+
+{% assign index = site.data.api-commons.api-frequently-asked-questions %}
+{% assign apifaq = index[0] %}
+
+<h1>{{ apifaq.title }}</h1>
+<p><img src="{{ apifaq.image }}" align="right" width="75" style="padding: 5px;" /></p>
+<p>{{ apifaq.header }}</p>
+{% for entry in apifaq.categories %}
+	<h3>{{ entry.category }}</h3>
+	<ul>
+	{% for questions in entry.questions %}
+		{% assign slug = questions.question %}
+		{% assign slug = slug | replace: ' ','-' %}
+		{% assign slug = slug | replace: '?','' %}
+		{% assign slug = slug | replace: ':','-' %}
+		{% assign slug = slug | downcase %}
+		<li><a name="{{ slug }}">{{ questions.question }}</a> - {{ questions.answer }}</li>
+	{% endfor %}
+	</ul>
+{% endfor %}
+<p>{{ apifaq.footer }}</p>

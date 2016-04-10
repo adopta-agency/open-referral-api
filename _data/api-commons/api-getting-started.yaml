@@ -1,0 +1,15 @@
+- title: Getting Started
+  image: http://kinlane-productions.s3.amazonaws.com/api-evangelist-site/building-blocks/bw-running.png
+  header: I work hard to try and keep my APIs as easy to onboard, and get to work making requests in as few clicks as possible. Here are a few steps you should be considering as you are getting started using this API.
+  footer: Please get to know me if you are going to be using my APIs. While they are publicly available, they are my personal resources. Make sure you sign up for just one account, fill out your profile, and if you need more access, or have problems, please reach out.
+  steps:
+    - title: Signup for an API account
+      url: https://apievangelist.3scale.net/signup
+    - title: Add a new app to get API keys
+      url: https://apievangelist.3scale.net/admin/applications/new
+    - title: Learn about how to authenticate with APIs
+      url: authentication/
+    - title: Visit the API documentation page for details
+      url: documentation/
+    - title: Submit an issue you have using Github issues
+      url: https://github.com/Kin-Lane/api/issues

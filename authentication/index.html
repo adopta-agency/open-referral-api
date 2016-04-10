@@ -1,0 +1,16 @@
+---
+layout: page
+---
+
+{% assign index = site.data.api-commons.api-authentication %}
+{% assign apiauthentication = index[0] %}
+
+<h1>{{ apiauthentication.title }}</h1>
+<p><img src="{{ apiauthentication.image }}" align="right" width="75" style="padding: 5px;" /></p>
+<p>{{ apiauthentication.header }}</p>
+  <ul>
+    {% for keys in apiauthentication.keys %}
+			<li><strong>{{ keys.name }}</strong> - {{ keys.description}}</li>
+    {% endfor %}
+  </ul>
+<p>{{ apiauthentication.footer }}</p>

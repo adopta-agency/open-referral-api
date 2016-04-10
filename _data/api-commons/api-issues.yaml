@@ -1,0 +1,21 @@
+- title: Issues
+  image: https://s3.amazonaws.com/kinlane-productions/bw-icons/bw-issue.png
+  header: I work to keep all the changes I make to each API self contained within each project repository. I use the Github issues management for organizing my road map, issues, and change log. This is just a static cache of the Github issues for this project.
+  footer: I run a job daily that updates this cached list from the Github repository. Any Github issue that are open, and tag as issue will show up here on this list, for storage, and then syndication elsewhere.
+  current:
+    - title: Just a Test Entry For Now
+      description: This is just a test entry to show what is possible, until I automate it from the Github repo.
+      url: https://github.com/Kin-Lane/api/issues
+      date: 01/03/2016
+    - title: Just a Test Entry For Now
+      description: This is just a test entry to show what is possible, until I automate it from the Github repo.
+      url: https://github.com/Kin-Lane/api/issues
+      date: 01/03/2016
+    - title: Just a Test Entry For Now
+      description: This is just a test entry to show what is possible, until I automate it from the Github repo.
+      url: https://github.com/Kin-Lane/api/issues
+      date: 01/03/2016
+    - title: Just a Test Entry For Now
+      description: This is just a test entry to show what is possible, until I automate it from the Github repo.
+      url: https://github.com/Kin-Lane/api/issues
+      date: 01/03/2016
