@@ -27,6 +27,8 @@
     properties:
     - type: x-openapi-spec
       url: api-commons/openapi-spec.json
+    - type: x-json-schema
+      url: api-commons/schema.json
   x-common:
   - type: x-authentication-overview
     url: authentication/

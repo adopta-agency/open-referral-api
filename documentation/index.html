@@ -116,6 +116,10 @@ layout: page
                       {% assign thisname = thisname | append:'/' %}
                       {% assign thisname = thisname | replace: ' ','-' %}
 
+                      {% if property.type == 'x-json-schema' %}
+                        {% assign json_schema_url = property.url %}
+                      {% endif %}
+
                       {% if property.type == 'x-openapi-spec' %}
                         {% assign openapi_spec_url = property.url %}
                         {% assign pathname = openapi_spec_url | replace: '_data/api-commons/','' %}
@@ -228,7 +232,11 @@ layout: page
                           </tr>
                         <tr style="background-color: #D3D3D3;">
                           <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">Entities</td>
-                          <td align="right" style="padding: 10px;"></td>
+                          <td align="right" style="padding: 10px;">
+                            {% if json_schema_url != null and json_schema_url != empty %}
+                              <a href="{{ site.url }}{{ json_schema_url }}" target="_blank" title="View JSON Schema" style="font-size: 16px; font-weight: normal;">JSON Schema</a>
+                            {% endif %}
+                          </td>
                         </tr>
                         {% assign taglist = '' %}
                         {% for spec in openapi_spec_json %}
@@ -246,6 +254,7 @@ layout: page
                                 {% endfor %}
                               </ul>
                               </td>
+                              <td align="right" style="padding: 10px;"></td>
                             </tr>
                           {% endfor %}
                         {% endfor %}
