@@ -246,8 +246,8 @@ layout: page
                                   {% assign this_filter_name = filter.name %}
                                   path: {{ filter.filters }}<br />
                                   {% for show in filter.filters %}
-                                    show: {{ show }}<br />
-                                    {% if this_filter_name != filter_name %}
+                                    {{ this_path }} != {{ show.path }}<br />
+                                    {% if this_path != show.path %}
                                       {% assign filter_path = 0 %}
                                     {% endif %}
                                   {% endfor %}
