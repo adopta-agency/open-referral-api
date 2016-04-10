@@ -152,12 +152,21 @@ layout: page
                       {% endif %}
 
                       {% if property.type == 'x-api-filters' %}
-                        {% assign api_filters = property.url %}
-                        {% assign api_filter_path = api_filters | replace: '_data/api-commons/','' %}
+                        {% assign api_filters_url = property.url %}
+                        {% assign api_filter_path = api_filters_url | replace: '_data/api-commons/','' %}
                         {% assign api_filter_path = api_filter_path | replace: '.yaml','' %}
                         {% assign api_filter_path = api_filter_path | replace: '.json','' %}
                         {% assign api_filter_path = api_filter_path | replace: '/','.' %}
                         {% assign api_filter_path = api_filter_path | replace: 'api-commons.','' %}
+
+                        {% for entry in apicommons %}
+                          {% assign thisname = entry[0] %}
+                          {% assign thisentry = entry[1] %}
+                          {% if thisname == api_filter_path %}
+                            {% assign api_filters = thisentry %}
+                          {% endif %}
+                        {% endfor %}
+
                       {% endif %}
 
                     {% endfor %}
