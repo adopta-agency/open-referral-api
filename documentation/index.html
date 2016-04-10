@@ -202,9 +202,11 @@ filter_name: Learn the Basics
                           {% assign taglist = '' %}
                           {% for spec in openapi_spec_json %}
                             {% for path in spec.paths %}
+
+                              {% assign this_path = path[0] %}
                               {% assign method_json = path[1] %}
 
-                              HERE2: {{ method_json }}
+                              HERE2: {{ this_path }}
 
                               {% for method in method_json %}
                                 {% assign tagarray = method[1].tags %}
@@ -228,7 +230,7 @@ filter_name: Learn the Basics
                             {% for spec in openapi_spec_json %}
                               {% for path in spec.paths %}
                                 {% assign method_json = path[1] %}
-                                HERE3: {{ method_json }}
+                                
                                 {% for method in method_json %}
 
                                   {% assign tagarray = method[1].tags %}
