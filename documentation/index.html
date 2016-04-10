@@ -215,6 +215,10 @@ layout: page
                                 {% endif %}
                               {% endfor %}
 
+                              {% if filter_name == '' %}
+                                {% assign filter_path = 0 %}
+                              {% endif %}
+
                               {% if filter_path == 0 %}
                                 {% for method in method_json %}
                                   {% assign tagarray = method[1].tags %}
@@ -254,6 +258,10 @@ layout: page
                                     {% endfor %}
                                   {% endif %}
                                 {% endfor %}
+
+                                {% if filter_name == '' %}
+                                  {% assign filter_path = 0 %}
+                                {% endif %}                                
 
                                 {% if filter_path == 0 %}
                                   {% for method in method_json %}
