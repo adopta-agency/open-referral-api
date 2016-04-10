@@ -157,6 +157,7 @@ layout: page
                     </tr>
                     <tr id="methods-for-{{ pathname }}">
                       <td colspan="2">
+
                         <table width="95%" border="0" style="margin-left: 15px; margin-right: 15px;">
                           {% assign taglist = '' %}
                           {% for spec in openapi_spec_json %}
@@ -222,6 +223,32 @@ layout: page
 
                           {% endfor %}
                         </table>
+
+                        <h3>Definitions</h3>
+                        {% assign taglist = '' %}
+                        {% for spec in openapi_spec_json %}
+
+                          --{{ definition }}--
+
+                          {% for definition in spec.definitions %}
+
+                            {% assign definition_name = definition[0] %}
+                            {% assign definition = definition[1] %}
+
+                            <strong>{{ definition_name }}</strong><br />
+
+                            {% for property in definition.properties %}
+
+                              {% assign property_name = property[0] %}
+                              {% assign property = property[1] %}
+
+                              {{ property_name }}<br />
+
+                            {% endfor %}
+
+                          {% endfor %}
+                        {% endfor %}
+
                       </td>
                     </tr>
                   </table>
@@ -232,19 +259,3 @@ layout: page
       </td>
     </tr>
   </table>
-
-<h3>Definitions</h3>
-{% for definition in definitions %}
-
-  {% assign definition_name = definition[0] %}
-  {% assign definition = definition[1] %}
-  <strong>{{ definition_name }}</strong><br />
-  {% for property in definition.properties %}
-
-    {% assign property_name = property[0] %}
-    {% assign property = property[1] %}
-
-    {{ property_name }}<br />
-
-  {% endfor %}
-{% endfor %}
