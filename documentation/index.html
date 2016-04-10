@@ -152,6 +152,7 @@ layout: page
                       {% endif %}
 
                       {% if property.type == 'x-api-filters' %}
+
                         {% assign api_filters_url = property.url %}
                         {% assign api_filter_path = api_filters_url | replace: '_data/api-commons/','' %}
                         {% assign api_filter_path = api_filter_path | replace: '.yaml','' %}
@@ -171,10 +172,19 @@ layout: page
 
                     {% endfor %}
 
+                    {% if api_filter_path != null and api_filter_path != empty %}
+                      <tr style="background-color: #D3D3D3;">
+                        <td align="center" colspan="2" style="font-size: 18px; font-weight: bold; padding: 10px;">
+                          {% for filter in api_filters %}
+                            {{ filter.name }}<br />
+                          {% endfor %}
+                        </td>
+                      </tr>
+                    {% endif %}
+
                     <tr style="background-color: #D3D3D3;">
                       <td align="left" style="font-size: 18px; font-weight: bold; padding: 10px;">
                         {{ api.name }}
-                        {{ api_filters }} - {{ api_filter_path}}
                       </td>
                       <td align="right" style="padding: 10px;">
                         {% if openapi_spec_url != null and openapi_spec_url != empty %}
