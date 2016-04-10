@@ -28,6 +28,8 @@ layout: page
 {% assign twitter_url = '' %}
 {% assign website_url = '' %}
 
+{% assign definitions = apijson.definitions %}
+{{ definitions }}
 {% for common in apijson.x-common %}
 
   {% if common.type == 'x-getting-started' %}
@@ -232,8 +234,7 @@ layout: page
   </table>
 
 <h3>Definitions</h3>
-{{ apijson.definitions}}
-{% for definition in apijson.definitions %}
+{% for definition in definitions %}
 
   {% assign definition_name = definition[0] %}
   {% assign definition = definition[1] %}
