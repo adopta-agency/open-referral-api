@@ -2078,7 +2078,7 @@
         ]
       }
     },
-    "/locations/:location_id/accessibility_for_disabilities/": {
+    "/locations/:location_id/accessibility/": {
       "get": {
         "summary": "Get Accessibility For Disabilities",
         "description": "Get Accessibility For Disabilities",
@@ -2096,7 +2096,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/accessibility_for_disabilities"
+                "$ref": "#/definitions/accessibility"
               }
             }
           }
@@ -2132,7 +2132,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/accessibility_for_disabilities"
+                "$ref": "#/definitions/accessibility"
               }
             }
           }
@@ -2142,7 +2142,7 @@
         ]
       }
     },
-    "/locations/:location_id/accessibility_for_disabilities/:accessibility_for_disabilities_id/": {
+    "/locations/:location_id/accessibility/:accessibility_id/": {
       "get": {
         "summary": "Get Accessibility For Disabilities",
         "description": "Get Accessibility For Disabilities",
@@ -2160,7 +2160,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/accessibility_for_disabilities"
+                "$ref": "#/definitions/accessibility"
               }
             }
           }
@@ -2176,7 +2176,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "accessibility_for_disabilities_id",
+            "name": "accessibility_id",
             "description": ""
           },
           {
@@ -2196,7 +2196,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/accessibility_for_disabilities"
+                "$ref": "#/definitions/accessibility"
               }
             }
           }
@@ -2212,7 +2212,7 @@
         "parameters": [
           {
             "in": "query",
-            "name": "accessibility_for_disabilities_id",
+            "name": "accessibility_id",
             "description": ""
           },
           {
@@ -2227,7 +2227,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/accessibility_for_disabilities"
+                "$ref": "#/definitions/accessibility"
               }
             }
           }
@@ -6350,7 +6350,7 @@
     }
   },
   "definitions": {
-    "accessibility_for_disabilities": {
+    "accessibility": {
       "properties": {
         "id": {
           "description": "",
