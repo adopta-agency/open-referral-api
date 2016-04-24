@@ -9,11 +9,11 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 	$APIsJSONURL = $params['apis_json_url'];
 	$Resource_Store_File = "apis.json";
 
-	$CheckFile = $gclient->repos->contents->getContents($githuborg, $githubrepo, $ref, $Resource_Store_File);
-	$APIsJSONContent = base64_decode($CheckFile->getcontent());
-
+	$APIsJSONContent = file_get_contents($APIsJSONURL);
 	$APIsJSON = json_decode($APIsJSONContent,true);
-
+	
+	var_dump($APIsJSON);
+	
 	foreach($APIsJSON['apis'] as $APIsJSON)
 		{
 
@@ -23,12 +23,13 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 			{
 
 			$property_type = $property['type'];
+			echo $property_type;
 
 			if(strtolower($property_type)=="x-openapi-spec")
 				{
 
 				$swagger_url = $property['url'];
-        $SwaggerJSON = file_get_contents($swagger_url);
+       			 $SwaggerJSON = file_get_contents($swagger_url);
 				$Swagger = json_decode($SwaggerJSON,true);
 
 				$Swagger_Title = $Swagger['info']['title'];
@@ -43,9 +44,6 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 				$Swagger_Produces = $Swagger['produces'][0];
 
 				echo $Swagger_Title . "<br />";
-
-				$Method = "";
-				$Method .= "<?php" . chr(13);
 
 				$Swagger_Definitions = $Swagger['definitions'];
 
@@ -97,15 +95,36 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 					foreach($value as $key2 => $value2)
 						{
 
+		
+						$Method = "";
+						$Method .= "<?php" . chr(13);
+
+						$PHP_File_Name = "";
+	
 						$Definition = "";
 						$Path = "";
-						$Path_Verb = $key2;
+						$Path_Verb = $key2;					
 
 						$Path_Summary = $value2['summary'];
 						$Path_Desc = $value2['description'];
 						$Path_OperationID = $value2['operationId'];
-						$Path_Parameters = $value2['parameters'];
-
+						if(isset($value2['parameters']))
+							{
+							$Path_Parameters = $value2['parameters'];
+							}
+						else 
+							{
+							$Path_Parameters = array();
+							}
+							
+						
+						$PHP_File_Name = trim($Path_Route) . "-" . trim($Path_Verb);
+						
+						$PHP_File_Name = str_replace("/","-",$PHP_File_Name);
+						$PHP_File_Name = str_replace(":","",$PHP_File_Name);
+						$PHP_File_Name = "m" . $PHP_File_Name . ".php";								
+						echo "PATH:" . $PHP_File_Name ."<br />";
+						
 						echo $Path_Verb . "<br />";
 						echo $Path_Summary . "<br />";
 
@@ -121,12 +140,16 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 
 							$Response_Code = $key3;
 							$Response_Desc = $value3['description'];
-							$Response_Definition = $value3['schema']['items'][chr(36)."ref"];
-							$Response_Definition = str_replace("#/definitions/", "", $Response_Definition);
-
-							if($Response_Code=="200")
-								{
-								$Definition = $Response_Definition;
+							
+							if(isset($value3['schema']))
+								{							
+								$Response_Definition = $value3['schema']['items'][chr(36)."ref"];
+								$Response_Definition = str_replace("#/definitions/", "", $Response_Definition);
+	
+								if($Response_Code=="200")
+									{
+									$Definition = $Response_Definition;
+									}
 								}
 							}
 
@@ -134,9 +157,33 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 							{
 							$Parameter_Name = $parameter['name'];
 							$Parameter_In = $parameter['in'];
-							$Parameter_Desc = $parameter['description'];
-							$Parameter_Required = $parameter['required'];
-							$Parameter_Type = $parameter['type'];
+
+							if(isset($parameter['description']))
+								{
+								$Parameter_Desc = $parameter['description'];
+								}
+							else
+								{
+								$Parameter_Desc = "";
+								}							
+							
+							if(isset($parameter['required']))
+								{
+								$Parameter_Required = $parameter['required'];
+								}
+							else
+								{
+								$Parameter_Required = 0;	
+								}
+							if(isset($parameter['type']))
+								{
+								$Parameter_Type = $parameter['type'];
+								}
+							else
+								{
+								$Parameter_Type = 'string';	
+								}							
+
 							echo $Parameter_Name . "(" . $Parameter_In . ")<br />";
 							if($Parameter_In=='query')
 								{
@@ -239,8 +286,24 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 								$Parameter_Name = $parameter['name'];
 								$Parameter_In = $parameter['in'];
 								$Parameter_Desc = $parameter['description'];
-								$Parameter_Required = $parameter['required'];
-								$Parameter_Type = $parameter['type'];
+	
+								if(isset($parameter['required']))
+									{
+									$Parameter_Required = $parameter['required'];
+									}
+								else
+									{
+									$Parameter_Required = 0;	
+									}
+								if(isset($parameter['type']))
+									{
+									$Parameter_Type = $parameter['type'];
+									}
+								else
+									{
+									$Parameter_Type = 'string';	
+									}
+
 								//echo $Parameter_Name . "<br />";
 								$Path .= chr(9) . chr(9) . "if(isset(" . chr(36) . $Parameter_Name . ")){ " . chr(36) . "query .= " . chr(36) . $Parameter_Name . " . " . chr(34) . "," . chr(34) . "; }" . chr(13);
 								}
@@ -252,8 +315,24 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 								$Parameter_Name = $parameter['name'];
 								$Parameter_In = $parameter['in'];
 								$Parameter_Desc = $parameter['description'];
-								$Parameter_Required = $parameter['required'];
-								$Parameter_Type = $parameter['type'];
+
+								if(isset($parameter['required']))
+									{
+									$Parameter_Required = $parameter['required'];
+									}
+								else
+									{
+									$Parameter_Required = 0;	
+									}
+								if(isset($parameter['type']))
+									{
+									$Parameter_Type = $parameter['type'];
+									}
+								else
+									{
+									$Parameter_Type = 'string';	
+									}
+
 								$Path .= chr(9) . chr(9) . "if(isset(" . chr(36) . $Parameter_Name . ")){ " . chr(36) . "query .= " . chr(34) . "'" . chr(34) . " . mysql_real_escape_string(" . chr(36) . $Parameter_Name . ") . " . chr(34) . "'," . chr(34) . "; }" . chr(13);
 								}
 
@@ -286,8 +365,22 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 								$Parameter_Name = $parameter['name'];
 								$Parameter_In = $parameter['in'];
 								$Parameter_Desc = $parameter['description'];
-								$Parameter_Required = $parameter['required'];
-								$Parameter_Type = $parameter['type'];
+								if(isset($parameter['required']))
+									{
+									$Parameter_Required = $parameter['required'];
+									}
+								else
+									{
+									$Parameter_Required = 0;	
+									}
+								if(isset($parameter['type']))
+									{
+									$Parameter_Type = $parameter['type'];
+									}
+								else
+									{
+									$Parameter_Type = 'string';	
+									}
 
 								$Path .= chr(9) . chr(9) . "if(isset(" . chr(36) . $Parameter_Name . "))" . chr(13);
 								$Path .= chr(9) . chr(9) .chr(9) . "{" . chr(13);
@@ -329,41 +422,20 @@ $app->get($route, function ()  use ($app,$githuborg,$githubrepo,$gclient){
 
 						$Method .= $Path;
 						}
+
+		        	$Method .= "?>" . chr(13);
+		
+		  			$AccountFolder = "/var/www/html/adopta_agency/open-referral-api/api/methods/";
+		  			$MethodName = $PHP_File_Name;
+		  			$MethodFile = $AccountFolder . $MethodName;
+		  			echo "Writing: " . $MethodFile . "<br />";
+		  			$fp = fopen($MethodFile, "w+");
+		  			fwrite($fp, $Method);
+		  			fclose($fp);
+
 					}
 
 				echo "<hr />";
-
-				echo "--definitions--<br />";
-				foreach($Swagger_Definitions as $key => $value)
-					{
-					echo $key . "<br />";
-					$Definition_Properties = $value['properties'];
-					foreach($Definition_Properties as $key4 => $value4)
-						{
-						$Definition_Property_Name = $key4;
-						echo $Definition_Property_Name . "<br />";
-
-						if(isset($value4['description'])){ $Definition_Property_Desc = $value4['description']; } else { $Definition_Property_Desc = ""; }
-						if(isset($value4['type'])){ $Definition_Property_Type = $value4['type']; } else { $Definition_Property_Type = ""; }
-						if(isset($value4['format'])){ $Definition_Property_Format = $value4['format']; } else { $Definition_Property_Format = ""; }
-
-						echo $Definition_Property_Type . "<br />";
-						echo $Definition_Property_Desc . "<br />";
-						}
-					//var_dump($value);
-					echo "<hr />";
-					}
-
-        $Method .= "?>" . chr(13);
-
-  			$AccountFolder = "/var/www/html/adopta_agency/open-referral-api/api/methods/";
-  			$MethodName = "index.php";
-  			$MethodFile = $AccountFolder . $MethodName;
-  			echo "Writing: " . $MethodFile . "<br />";
-  			$fp = fopen($MethodFile, "w+");
-  			fwrite($fp, $Method);
-  			fclose($fp);
-
 				}
 			}
 		}
