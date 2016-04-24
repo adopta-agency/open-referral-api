@@ -1,4 +1,4 @@
-Content API
+Open Referral API
 =======
 
-Content API
+This is the Open Referral / Human Services Description Specification (HSDS) API.
