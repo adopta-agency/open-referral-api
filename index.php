@@ -5,6 +5,7 @@ ini_set('display_errors', '1');
 
 require_once('config.php');
 require_once('Slim/Slim.php');
+require_once('libraries/common.php');
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
@@ -35,18 +36,23 @@ $definitions = $openapi_yaml['definitions'];
 
 foreach($paths as $path => $path_details)
 	{
-  $route = $path;
-  foreach($path_details as $verb => $verb_details)
-  	{
-    if($verb == 'get')
-      {
-      $app->get($route, function ()  use ($app,$conn,$route,$verb){
-      	include "methods/includes/" . $verb . ".php";
-      	});
-      }
-    }
+	foreach($path_details as $verb => $verb_details)
+  		{
+    	if($verb == 'get')
+    		{
+			$route = $path;
+    		$app->get($route, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
+      			include "methods/includes/" . $verb . ".php";
+      			});
+    		}
+    	}
+	}
 
-  }
+$route = "/";
+$app->get($route, function ()  use ($app,$conn,$route,$verb){
+  	echo "hello!";
+  	});
 
 $app->run();
+
 ?>

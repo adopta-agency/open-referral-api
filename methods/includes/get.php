@@ -2,10 +2,6 @@
 $request = $app->request();
 $_get = $request->params();
 
-// Get the master OpenAPI URL (Considering moving local for performance, for now its fine.)
-$openapi_yaml_raw = file_get_contents($openapi_url);
-$openapi_yaml = yaml_parse($openapi_yaml_raw);
-
 // grab this path
 $api = $openapi_yaml['paths'][$route];
 
