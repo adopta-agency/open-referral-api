@@ -10,13 +10,13 @@ $openapi_yaml = yaml_parse($openapi_yaml_raw);
 $api = $openapi_yaml['paths'][$route];
 
 // grab this path
-$definitions = $openapi_yaml['definitions'];	
+$definitions = $openapi_yaml['definitions'];
 
 // load up the parameters (type,name,description,default)
 $parameters = $api[$verb]['parameters'];
 
 // load of up the responses
-$responses = $api[$verb]['responses'];		
+$responses = $api[$verb]['responses'];
 $response_200 = $responses['200'];
 
 // grab our schema
@@ -46,12 +46,12 @@ $paging = "";
 $page = 0;
 $per_page = 25;
 foreach($parameters as $parameter)
-	{	
+	{
 
 	//echo $parameter['name'] . "<br />";
 
-	// Multiple queries		
-	if($parameter['name']=='queries')	
+	// Multiple queries
+	if($parameter['name']=='queries')
 		{
 		$qu_arr = explode(',',$_get['queries']);
 		foreach($qu_arr as $q)
@@ -60,12 +60,12 @@ foreach($parameters as $parameter)
 			$q_arr = explode('=',$q);
 			$field_name = $q_arr[0];
 			$field_value = $q_arr[1];
-			$where .= " " . $field_name . " LIKE '%" . $field_value . "%' AND";		
+			$where .= " " . $field_name . " LIKE '%" . $field_value . "%' AND";
 			}
 		}
-		
+
 	// Order
-	if($parameter['name']=='sortby')	
+	if($parameter['name']=='sortby')
 		{
 		$sortby = $_get['sortby'];
 		if(isset($_get['order']))
@@ -74,40 +74,40 @@ foreach($parameters as $parameter)
 			}
 		else
 			{
-			$order = "asc";	
+			$order = "asc";
 			}
-		
-		$sorting = $sortby . " " . $order;	
+
+		$sorting = $sortby . " " . $order;
 		}
-		
+
 	// Pagination
-	if($parameter['name']=='page')	
+	if($parameter['name']=='page')
 		{
 		$page = $_get['page'];
 		if(isset($_get['per_page']))
 			{
 			$per_page = $_get['per_page'];
 			}
-		
+
 		$paging = $page . "," . $per_page;
-		}			
-		
+		}
+
 	}
 $where = substr($where,0,strlen($where)-4);
-$Query .= " WHERE" . $where;	
+$Query .= " WHERE" . $where;
 $Query .= " ORDER BY " . $sorting;
 $Query .= " LIMIT " . $paging;
 
 //echo $Query;
 
-foreach ($conn->query($Query) as $row) 
+foreach ($conn->query($Query) as $row)
 	{
-	$F = array();	
+	$F = array();
 	foreach($schema_properties as $field => $value)
-		{			
-		$F[$field] = $row[$field];														
-		}    	
-	array_push($ReturnObject, $F);		
+		{
+		$F[$field] = $row[$field];
+		}
+	array_push($ReturnObject, $F);
 	}
 
 $app->response()->header("Content-Type", "application/json");

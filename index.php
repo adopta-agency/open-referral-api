@@ -5,7 +5,6 @@ ini_set('display_errors', '1');
 
 require_once('config.php');
 require_once('Slim/Slim.php');
-require_once('libraries/common.php');
 
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
@@ -17,34 +16,37 @@ $head = $request->headers();
 //foreach ($head as $name => $values) {
     //echo $name . ": " . $values . "\n\r";
 //}
- 
+
 if(isset($head['X_APPID'])){ $appid = $head['X_APPID']; } else { $appid = ""; }
 if(isset($head['X_APPKEY'])){ $appkey = $head['X_APPKEY']; } else { $appkey = ""; }
 
 //echo $appid . "<br />";
 //echo $appkey . "<br />";
 
-//$plan = "admin";
-if($appid == "testkin" && $appkey = "testkin")
-	{
-	$plan = "admin";	
-	}
-else
-	{
-	$plan = "public";	
-	}
-	
-// overrride	
-$plan = "admin";	
+// Get the master OpenAPI URL (Considering moving local for performance, for now its fine.)
+$openapi_yaml_raw = file_get_contents($openapi_url);
+$openapi_yaml = yaml_parse($openapi_yaml_raw);
 
-if($plan=="admin")
+// grab this path
+$paths = $openapi_yaml['paths'];
+
+// grab this path
+$definitions = $openapi_yaml['definitions'];
+
+foreach($paths as $path => $path_details)
 	{
-	require_once "methods/admin.php";
-	}
-else
-	{
-	require_once "methods/public.php";	
-	}
-	
-$app->run();	
+  $route = $path;
+  foreach($path_details as $verb => $verb_details)
+  	{
+    if($verb == 'get')
+      {
+      $app->get($route, function ()  use ($app,$conn,$route,$verb){
+      	include "methods/includes/" . $verb . ".php";
+      	});
+      }
+    }
+
+  }
+
+$app->run();
 ?>
