@@ -42,7 +42,7 @@ foreach($paths as $path => $path_details)
     		{
 			$route = $path;
     		$app->get($route, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
-      			include "methods/includes/" . $verb . ".php";
+      			include "includes/" . $verb . ".php";
       			});
     		}
     	}
@@ -50,7 +50,7 @@ foreach($paths as $path => $path_details)
 
 $route = "/";
 $app->get($route, function ()  use ($app,$conn,$route,$verb){
-  	echo "hello!";
+  	echo "hello there!";
   	});
 
 $app->run();
