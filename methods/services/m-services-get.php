@@ -1,0 +1,1 @@
+<?php$route = '/services/';$verb = "get";$app->get($route, function ()  use ($app,$conn,$openapi_url,$route,$verb){	include "methods/includes/get.php";	});?>

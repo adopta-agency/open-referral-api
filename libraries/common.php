@@ -368,5 +368,20 @@ function getGUID(){
             //.chr(125); "}"
         return $uuid;
     }
+}
+
+function prepareYAML($input) {
+	
+	$output = $input;
+	
+	//$output = substr($output,3,strlen($output));
+	//$output = substr($output,0,strlen($output)-5);
+	//$output = trim($output);
+	//$output = "-" . chr(32) . $output;
+	//$output = str_replace(chr(13),chr(13).chr(32).chr(32),$output);
+	//$output = str_replace(chr(10),chr(10).chr(32).chr(32),$output);	
+	$output = substr($output,4,strlen($output));
+	$output = substr($output,0,strlen($output)-5);
+	return $output;
 }	
 ?>

@@ -1,1 +1,50 @@
-<?phpdate_default_timezone_set('America/Los_Angeles');//error_reporting(E_ALL);//ini_set('display_errors', '1');require_once('config.php');require_once('Slim/Slim.php');require_once('parse/index.php');require_once('libraries/common.php');\Slim\Slim::registerAutoloader();$app = new \Slim\Slim();$request = $app->request();$Params = $request->params();if(isset($Params['userkey'])){ $userkey = $Params['userkey']; } else { $userkey = ""; }if(isset($Params['appkey'])){ $appkey = $Params['appkey']; } else { $appkey = ""; }//echo $userkey . "<br />";//echo $appkey . "<br />";if($userkey == "3y/pwURI1mm7AvakF40yrBw7E9CGjqmqdFpqz+jyPCs=" && $appkey = "a5//scoRpm9EWnK3ZQPljqcp9gXEnvcdtLR4nrTxjtw=")	{	$plan = "admin";		}else	{	$plan = "public";		}	if($plan=="admin")	{	require_once "methods/admin.php";	require_once "methods/utility.php";;	}else	{	require_once "methods/public.php";		}	$route = '/';$app->get($route, function ()  use ($app){		$ReturnObject = array();	$ReturnObject['response'] = "Need Default";		$app->response()->header("Content-Type", "application/json");	echo stripslashes(format_json(json_encode($ReturnObject, ENT_QUOTES)));			});		$app->run();	?>
+<?php
+date_default_timezone_set('America/Los_Angeles');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+require_once('config.php');
+require_once('Slim/Slim.php');
+require_once('libraries/common.php');
+
+\Slim\Slim::registerAutoloader();
+$app = new \Slim\Slim();
+
+$request = $app->request();
+$params = $request->params();
+$head = $request->headers();
+
+//foreach ($head as $name => $values) {
+    //echo $name . ": " . $values . "\n\r";
+//}
+ 
+if(isset($head['X_APPID'])){ $appid = $head['X_APPID']; } else { $appid = ""; }
+if(isset($head['X_APPKEY'])){ $appkey = $head['X_APPKEY']; } else { $appkey = ""; }
+
+//echo $appid . "<br />";
+//echo $appkey . "<br />";
+
+//$plan = "admin";
+if($appid == "testkin" && $appkey = "testkin")
+	{
+	$plan = "admin";	
+	}
+else
+	{
+	$plan = "public";	
+	}
+	
+// overrride	
+$plan = "admin";	
+
+if($plan=="admin")
+	{
+	require_once "methods/admin.php";
+	}
+else
+	{
+	require_once "methods/public.php";	
+	}
+	
+$app->run();	
+?>
