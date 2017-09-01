@@ -38,6 +38,8 @@ foreach($paths as $path => $path_details)
 	{
 	foreach($path_details as $verb => $verb_details)
   		{
+  		
+  		// GET	
     	if($verb == 'get')
     		{
 			$route = $path;
