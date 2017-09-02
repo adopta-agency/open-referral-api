@@ -159,7 +159,7 @@ if(isset($_body['name']))
 			
 				// Build The Query To Insert
 				$query = "INSERT INTO " . $sub_schema ."(" . $field_string . ") VALUES(" . $value_string . ")";
-				echo "\n" . $query . "\n";
+				//echo "\n" . $query . "\n";
 				
 				// Execute Query
 			    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -167,6 +167,8 @@ if(isset($_body['name']))
 				//echo $response . "\n";				
 				
 				}
+			
+			$F[$field] = $_body[$field];
 			
 			}				
 		}	
