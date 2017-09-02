@@ -71,6 +71,22 @@ if(isset($id))
 		}
 	}
 	
-$app->response()->header("Content-Type", "application/json");
-echo stripslashes(format_json(json_encode($ReturnObject)));
+//echo $head['ACCEPT'] . "<br />";
+if(isset($head['ACCEPT']) && $head['ACCEPT'] == 'text/csv')
+	{
+	$app->response()->header("Content-Type", "text/csv");	
+	$return_csv = generateCsv($ReturnObject);
+	echo $return_csv;
+	}
+elseif(isset($head['ACCEPT']) && $head['ACCEPT'] == 'application/xml')
+	{
+	$app->response()->header("Content-Type", "application/xml");	
+	$return_xml = arrayToXml($ReturnObject);
+	echo $return_xml;
+	}
+else
+	{
+	$app->response()->header("Content-Type", "application/json");
+	echo stripslashes(format_json(json_encode($ReturnObject)));
+	}
 ?>

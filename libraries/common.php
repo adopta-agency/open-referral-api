@@ -121,44 +121,6 @@ function domnode_to_array($node) {
   return $output;
 }
 
-function PrepareFileName($PrepareString)
-	{
-
-	$PrepareString = str_replace(" ","ZSPAZESZ",$PrepareString);
-	$PrepareString = preg_replace('#\W#', '', $PrepareString);
-	$PrepareString = str_replace("ZSPAZESZ","-",$PrepareString);
-	$PrepareString = strtolower($PrepareString);
-
-	return $PrepareString;
-	}
-
-function PrepareXMLName($PrepareString)
-	{
-
-	$PrepareString = str_replace(" ","",$PrepareString);
-	$PrepareString = preg_replace('#\W#', '', $PrepareString);
-	$PrepareString = str_replace("ZSPAZESZ","",$PrepareString);
-	$PrepareString = strtolower($PrepareString);
-
-	return $PrepareString;
-	}
-
- function rangeMonth($datestr) {
-    date_default_timezone_set(date_default_timezone_get());
-    $dt = strtotime($datestr);
-    $res['start'] = date('Y-m-d', strtotime('first day of this month', $dt));
-    $res['end'] = date('Y-m-d', strtotime('last day of this month', $dt));
-    return $res;
-    }
-
-  function rangeWeek($datestr) {
-    date_default_timezone_set(date_default_timezone_get());
-    $dt = strtotime($datestr);
-    $res['start'] = date('N', $dt)==1 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('last monday', $dt));
-    $res['end'] = date('N', $dt)==7 ? date('Y-m-d', $dt) : date('Y-m-d', strtotime('next sunday', $dt));
-    return $res;
-    }
-
 function prettyPrint( $json )
 {
     $result = '';
@@ -370,18 +332,37 @@ function getGUID(){
     }
 }
 
-function prepareYAML($input) {
-	
-	$output = $input;
-	
-	//$output = substr($output,3,strlen($output));
-	//$output = substr($output,0,strlen($output)-5);
-	//$output = trim($output);
-	//$output = "-" . chr(32) . $output;
-	//$output = str_replace(chr(13),chr(13).chr(32).chr(32),$output);
-	//$output = str_replace(chr(10),chr(10).chr(32).chr(32),$output);	
-	$output = substr($output,4,strlen($output));
-	$output = substr($output,0,strlen($output)-5);
-	return $output;
-}	
+
+function generateCsv($data, $delimiter = ',', $enclosure = '"') {
+		$contents = "";
+       $handle = fopen('php://temp', 'r+');
+       foreach ($data as $line) {
+               fputcsv($handle, $line, $delimiter, $enclosure);
+       }
+       rewind($handle);
+       while (!feof($handle)) {
+               $contents .= fread($handle, 8192);
+       }
+       fclose($handle);
+       return $contents;
+}
+
+function arrayToXml($array, $rootElement = null, $xml = null) {
+  $_xml = $xml;
+ 
+  if ($_xml === null) {
+    $_xml = new SimpleXMLElement($rootElement !== null ? $rootElement : '<root/>');
+  }
+ 
+  foreach ($array as $k => $v) {
+    if (is_array($v)) { //nested array
+      arrayToXml($v, $k, $_xml->addChild($k));
+    } else {
+      $_xml->addChild($k, $v);
+    }
+  }
+ 
+  return $_xml->asXML();
+}
+
 ?>
