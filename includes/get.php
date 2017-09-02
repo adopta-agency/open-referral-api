@@ -29,10 +29,17 @@ $Query = "SELECT ";
 $field_string = "";
 foreach($schema_properties as $field => $value)
 	{
-	$type = $value['type'];
-	if($type=='string')
-		{
-		$field_string .= $field . ",";
+	if(isset($value['type']))
+		{		
+		$type = $value['type'];
+		if($type=='string')
+			{
+			$field_string .= $field . ",";
+			}
+		}
+	else
+		{			
+		// Deal With Array	
 		}
 	}
 $field_string = substr($field_string,0,strlen($field_string)-1);
@@ -156,20 +163,22 @@ foreach ($conn->query($Query) as $row)
 	$core_resource_id = '';
 	foreach($schema_properties as $field => $value)
 		{
-		$type = $value['type'];
-		
-		if($type=='string')
-			{	
-				
-			$F[$field] = $row[$field];
 			
-			if($field=='id')
-				{
-				$core_resource_id = $row[$field];	
+		if(isset($value['type']))
+			{			
+			$type = $value['type'];
+			if($type=='string')
+				{	
+					
+				$F[$field] = $row[$field];
+				
+				if($field=='id')
+					{
+					$core_resource_id = $row[$field];	
+					}
 				}
 			}
-			
-		if($type=='array')
+		else
 			{			
 				
 			$path_count_array = explode("/",$route);	
@@ -179,7 +188,7 @@ foreach ($conn->query($Query) as $row)
 			//echo "path: " . $core_path . "<br />";
 			//echo "path count: " . $path_count . "<br />";				
 						
-			$sub_schema_ref = $value['schema']['$ref'];
+			$sub_schema_ref = $value['$ref'];
 			$sub_schema = str_replace("#/definitions/","",$sub_schema_ref);
 			$sub_schema_properties = $definitions[$sub_schema]['properties'];
 			//echo $sub_schema . "\n";
