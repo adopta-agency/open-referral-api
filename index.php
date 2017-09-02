@@ -38,24 +38,23 @@ foreach($paths as $path => $path_details)
 	{
 	foreach($path_details as $verb => $verb_details)
   		{
-  		
+
   		$route = $path;
-  		
-		$route2 = $path;
-		$route2 = str_replace("{",":",$route2);
-		$route2 = str_replace("}","",$route2);  
-		
-		$route_array = explode(":",$route2);
-		$id_count = count($route_array);
-  		
-  		//	echo "id count: " . $id_count . "\n";
-  		
+
+			$route2 = $path;
+			$route2 = str_replace("{",":",$route2);
+			$route2 = str_replace("}","",$route2);
+
+			$route_array = explode(":",$route2);
+			$id_count = count($route_array);
+
   		// This logic is too vebose -- clean up
-  		
-  		// GET	
+			// I just don't know how to do the $app->[verb] and the $ids -- simmer on
+
+  		// GET
     	if($verb == 'get')
     		{
-    		
+
     		if($id_count==2)
     			{
 	    		$app->get($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
@@ -67,7 +66,7 @@ foreach($paths as $path => $path_details)
 	    		$app->get($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
-    			}    			
+    			}
     		else
     			{
 	    		$app->get($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
@@ -75,11 +74,11 @@ foreach($paths as $path => $path_details)
 	      			});
     			}
     		}
-    		
-  		// POST	
+
+  		// POST
     	if($verb == 'post')
     		{
-    			
+
     		if($id_count==2)
     			{
 	    		$app->post($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
@@ -91,20 +90,20 @@ foreach($paths as $path => $path_details)
 	    		$app->post($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
-    			}    			
+    			}
     		else
     			{
 	    		$app->post($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
     			}
-    			
-    		} 
-    		
-  		// PUT	
+
+    		}
+
+  		// PUT
     	if($verb == 'put')
     		{
-    			
+
     		if($id_count==2)
     			{
 	    		$app->put($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
@@ -116,20 +115,20 @@ foreach($paths as $path => $path_details)
 	    		$app->put($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
-    			}    			
+    			}
     		else
     			{
 	    		$app->put($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
     			}
-    			
-    		}  
-    		
-  		// DELETE	
+
+    		}
+
+  		// DELETE
     	if($verb == 'delete')
     		{
-    			
+
     		if($id_count==2)
     			{
 	    		$app->delete($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
@@ -141,22 +140,26 @@ foreach($paths as $path => $path_details)
 	    		$app->delete($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
-    			}    			
+    			}
     		else
     			{
 	    		$app->delete($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
 	      			include "includes/" . $verb . ".php";
 	      			});
     			}
-    			
-    		}      		
-    		
+
+    		}
+
     	}
 	}
 
 $route = "/";
 $app->get($route, function ()  use ($app,$conn,$route,$verb){
-  	echo "hello!";
+		// Get the master OpenAPI URL (Considering moving local for performance, for now its fine.)
+		$apis_json_yaml_raw = file_get_contents($apis_json);
+		$apis_json_yaml = yaml_parse($apis_json_yaml_raw);
+		$app->response()->header("Content-Type", "application/json");
+		echo stripslashes(format_json(json_encode($apis_json_yaml)));
   	});
 
 $app->run();
