@@ -119,6 +119,7 @@ if($where!='')
 if(isset($id) && $id !='complete')
 	{
 	$path_count_array = explode("/",$route);	
+	///var_dump($path_count_array);
 	$path_count = count($path_count_array);	
 	$core_path = $path_count_array[1];
 	$core_path = substr($core_path,0,strlen($core_path)-1);
@@ -134,7 +135,7 @@ if(isset($id) && $id !='complete')
 		}
 	else
 		{
-		if($path_count == 5)
+		if($path_count == 5 && $path_count_array[2] !='complete')
 			{
 			$Query .= " WHERE " . $core_path . "_id = '" . $id . "'";	
 			}
