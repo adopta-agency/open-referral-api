@@ -29,13 +29,10 @@ $Query = "SELECT ";
 $field_string = "";
 foreach($schema_properties as $field => $value)
 	{
-	if(isset($value['type']))
+	if(isset($value['type']) && $value['type'] != 'array')
 		{		
 		$type = $value['type'];
-		if($type=='string')
-			{
-			$field_string .= $field . ",";
-			}
+		$field_string .= $field . ",";
 		}
 	else
 		{			
@@ -165,18 +162,14 @@ foreach ($conn->query($Query) as $row)
 	foreach($schema_properties as $field => $value)
 		{
 			
-		if(isset($value['type']))
+		if(isset($value['type']) && $value['type'] != 'array')
 			{			
 			$type = $value['type'];
-			if($type=='string')
-				{	
-					
-				$F[$field] = $row[$field];
-				
-				if($field=='id')
-					{
-					$core_resource_id = $row[$field];	
-					}
+			$F[$field] = $row[$field];
+			
+			if($field=='id')
+				{
+				$core_resource_id = $row[$field];	
 				}
 			}
 		else
@@ -189,7 +182,7 @@ foreach ($conn->query($Query) as $row)
 			//echo "path: " . $core_path . "<br />";
 			//echo "path count: " . $path_count . "<br />";				
 						
-			$sub_schema_ref = $value['$ref'];
+			$sub_schema_ref = $value['items']['$ref'];
 			$sub_schema = str_replace("#/definitions/","",$sub_schema_ref);
 			$sub_schema_properties = $definitions[$sub_schema]['properties'];
 			//echo $sub_schema . "\n";
@@ -202,10 +195,7 @@ foreach ($conn->query($Query) as $row)
 			foreach($sub_schema_properties as $sub_field_1 => $sub_value_1)
 				{
 				$type = $sub_value_1['type'];
-				if($type=='string')
-					{
-					$field_string .= $sub_field_1 . ",";
-					}
+				$field_string .= $sub_field_1 . ",";
 				}
 			$field_string = substr($field_string,0,strlen($field_string)-1);
 			$sub_query .= $field_string;
@@ -213,7 +203,7 @@ foreach ($conn->query($Query) as $row)
 			$sub_query .= " FROM " . $sub_schema;
 			
 			$sub_query .= " WHERE " . $core_path . "_id = '" . $core_resource_id . "'";	
-			//echo $sub_query . "/n";
+			//	echo $sub_query . "/n";
 			
 			$sub_array = array();
 			foreach ($conn->query($sub_query) as $sub_row)

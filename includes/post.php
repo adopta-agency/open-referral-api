@@ -38,7 +38,7 @@ if(isset($_body['name']))
 	$field_string = "";
 	foreach($schema_properties as $field => $value)
 		{
-		if(isset($value['type']) && $value['type']=='string')
+		if(isset($value['type']) && $value['type'] != 'array')
 			{
 			if(isset($_body[$field]))
 				{			
@@ -56,7 +56,7 @@ if(isset($_body['name']))
 	$value_string = "";
 	foreach($schema_properties as $field => $value)
 		{
-		if(isset($value['type']) && $value['type']=='string')
+		if(isset($value['type']) && $value['type'] != 'array')
 			{			
 			if(isset($_body[$field]))
 				{			
@@ -92,7 +92,7 @@ if(isset($_body['name']))
 	$F = array();
 	foreach($schema_properties as $field => $value)
 		{
-		if(isset($value['type']) && $value['type'] = 'string')
+		if(isset($value['type']) && $value['type'] != 'array')
 			{			
 			$F[$field] = filter_var($_body[$field], FILTER_SANITIZE_STRING);
 			}
@@ -107,10 +107,10 @@ if(isset($_body['name']))
 			//echo "path: " . $core_path . "<br />";
 			//echo "path count: " . $path_count . "<br />";				
 						
-			$sub_schema_ref = $value['$ref'];
+			$sub_schema_ref = $value['items']['$ref'];
 			$sub_schema = str_replace("#/definitions/","",$sub_schema_ref);
 			$sub_schema_properties = $definitions[$sub_schema]['properties'];
-			echo $sub_schema . "\n";
+			//echo $sub_schema . "\n";
 			//var_dump($sub_schema_properties);	
 
 			foreach($_body[$field] as $sub_body)
@@ -125,7 +125,7 @@ if(isset($_body['name']))
 				$field_string = "";
 				foreach($sub_schema_properties as $sub_field_1 => $sub_value_1)
 					{
-					if(isset($sub_value_1['type']) && $sub_value_1['type']=='string')
+					if(isset($sub_value_1['type']))
 						{
 						if(isset($sub_body[$sub_field_1]))
 							{			
@@ -143,7 +143,7 @@ if(isset($_body['name']))
 				$value_string = "";
 				foreach($sub_schema_properties as $sub_field_2 => $sub_value_2)
 					{
-					if(isset($sub_value_2['type']) && $sub_value_2['type']=='string')
+					if(isset($sub_value_2['type']))
 						{			
 						if(isset($sub_body[$sub_field_2]))
 							{			
