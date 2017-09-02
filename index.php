@@ -39,20 +39,124 @@ foreach($paths as $path => $path_details)
 	foreach($path_details as $verb => $verb_details)
   		{
   		
+  		$route = $path;
+  		
+		$route2 = $path;
+		$route2 = str_replace("{",":",$route2);
+		$route2 = str_replace("}","",$route2);  
+		
+		$route_array = explode(":",$route2);
+		$id_count = count($route_array);
+  		
+  		//	echo "id count: " . $id_count . "\n";
+  		
+  		// This logic is too vebose -- clean up
+  		
   		// GET	
     	if($verb == 'get')
     		{
-			$route = $path;
-    		$app->get($route, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
-      			include "includes/" . $verb . ".php";
-      			});
+    		
+    		if($id_count==2)
+    			{
+	    		$app->get($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    		elseif($id_count==3)
+    			{
+	    		$app->get($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}    			
+    		else
+    			{
+	    		$app->get($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
     		}
+    		
+  		// POST	
+    	if($verb == 'post')
+    		{
+    			
+    		if($id_count==2)
+    			{
+	    		$app->post($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    		elseif($id_count==3)
+    			{
+	    		$app->post($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}    			
+    		else
+    			{
+	    		$app->post($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    			
+    		} 
+    		
+  		// PUT	
+    	if($verb == 'put')
+    		{
+    			
+    		if($id_count==2)
+    			{
+	    		$app->put($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    		elseif($id_count==3)
+    			{
+	    		$app->put($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}    			
+    		else
+    			{
+	    		$app->put($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    			
+    		}  
+    		
+  		// DELETE	
+    	if($verb == 'delete')
+    		{
+    			
+    		if($id_count==2)
+    			{
+	    		$app->delete($route2, function ($id)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    		elseif($id_count==3)
+    			{
+	    		$app->delete($route2, function ($id,$id2)  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}    			
+    		else
+    			{
+	    		$app->delete($route2, function ()  use ($app,$conn,$route,$verb,$openapi_yaml){
+	      			include "includes/" . $verb . ".php";
+	      			});
+    			}
+    			
+    		}      		
+    		
     	}
 	}
 
 $route = "/";
 $app->get($route, function ()  use ($app,$conn,$route,$verb){
-  	echo "hello there!";
+  	echo "hello!";
   	});
 
 $app->run();

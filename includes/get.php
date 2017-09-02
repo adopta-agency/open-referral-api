@@ -49,51 +49,100 @@ foreach($parameters as $parameter)
 	// Multiple queries
 	if($parameter['name']=='queries')
 		{
-		$qu_arr = explode(',',$_get['queries']);
-		foreach($qu_arr as $q)
+		if(isset($_get['queries']))
 			{
-			//echo $q . "<br />";
-			$q_arr = explode('=',$q);
-			$field_name = $q_arr[0];
-			$field_value = $q_arr[1];
-			$where .= " " . $field_name . " LIKE '%" . $field_value . "%' AND";
+			$qu_arr = explode(',',$_get['queries']);
+			foreach($qu_arr as $q)
+				{
+				//echo $q . "<br />";
+				$q_arr = explode('=',$q);
+				$field_name = $q_arr[0];
+				$field_value = $q_arr[1];
+				$where .= " " . $field_name . " LIKE '%" . $field_value . "%' AND";
+				}
 			}
 		}
 
 	// Order
 	if($parameter['name']=='sortby')
 		{
-		$sortby = $_get['sortby'];
-		if(isset($_get['order']))
-			{
-			$order = $_get['order'];
+		if(isset($_get['sortby']))
+			{			
+			$sortby = $_get['sortby'];
+			if(isset($_get['order']))
+				{
+				$order = $_get['order'];
+				}
+			else
+				{
+				$order = "asc";
+				}
+			$sorting = $sortby . " " . $order;	
 			}
-		else
-			{
-			$order = "asc";
-			}
-
-		$sorting = $sortby . " " . $order;
 		}
 
 	// Pagination
 	if($parameter['name']=='page')
 		{
-		$page = $_get['page'];
-		if(isset($_get['per_page']))
+		if(isset($_get['page']))			
 			{
-			$per_page = $_get['per_page'];
+			$page = $_get['page'];
+			if(isset($_get['per_page']))
+				{
+				$per_page = $_get['per_page'];
+				}
 			}
-
-		$paging = $page . "," . $per_page;
+		$paging = $page . "," . $per_page;		
 		}
 
 	}
-$where = substr($where,0,strlen($where)-4);
-$Query .= " WHERE" . $where;
-$Query .= " ORDER BY " . $sorting;
-$Query .= " LIMIT " . $paging;
 
+$where = substr($where,0,strlen($where)-4);
+
+if($where!='')
+	{
+	$Query .= " WHERE" . $where;
+	}
+	
+if(isset($id))
+	{
+	$path_count_array = explode("/",$route);	
+	$path_count = count($path_count_array);	
+	$core_path = $path_count_array[1];
+	$core_path = substr($core_path,0,strlen($core_path)-1);
+	//echo "path: " . $core_path . "<br />";
+	//echo "path count: " . $path_count . "<br />";
+	
+	if(isset($id2))
+		{
+		if($path_count == 6)
+			{
+			$Query .= " WHERE id = '" . $id2 . "' AND " . $core_path . "_id = '" . $id . "'";	
+			}		
+		}
+	else
+		{
+		if($path_count == 5)
+			{
+			$Query .= " WHERE " . $core_path . "_id = '" . $id . "'";	
+			}
+		else
+			{
+			$Query .= " WHERE id = '" . $id . "'";	
+			}
+		}
+	}
+	
+if($sorting != '')
+	{
+	$Query .= " ORDER BY " . $sorting;
+	}
+
+if($paging!='')
+	{
+	$Query .= " LIMIT " . $paging;
+	}
+	
 //echo $Query;
 
 foreach ($conn->query($Query) as $row)
