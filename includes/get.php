@@ -19,6 +19,7 @@ $response_200 = $responses['200'];
 $schema_ref = $response_200['schema']['items']['$ref'];
 $schema = str_replace("#/definitions/","",$schema_ref);
 $schema_properties = $definitions[$schema]['properties'];
+$schema = str_replace("_complete","",$schema);
 
 $ReturnObject = array();
 
@@ -28,7 +29,11 @@ $Query = "SELECT ";
 $field_string = "";
 foreach($schema_properties as $field => $value)
 	{
-	$field_string .= $field . ",";
+	$type = $value['type'];
+	if($type=='string')
+		{
+		$field_string .= $field . ",";
+		}
 	}
 $field_string = substr($field_string,0,strlen($field_string)-1);
 $Query .= $field_string;
@@ -104,7 +109,7 @@ if($where!='')
 	$Query .= " WHERE" . $where;
 	}
 	
-if(isset($id))
+if(isset($id) && $id !='complete')
 	{
 	$path_count_array = explode("/",$route);	
 	$path_count = count($path_count_array);	
@@ -113,7 +118,7 @@ if(isset($id))
 	//echo "path: " . $core_path . "<br />";
 	//echo "path count: " . $path_count . "<br />";
 	
-	if(isset($id2))
+	if(isset($id2) && $id2 !='complete')
 		{
 		if($path_count == 6)
 			{
@@ -148,9 +153,72 @@ if($paging!='')
 foreach ($conn->query($Query) as $row)
 	{
 	$F = array();
+	$core_resource_id = '';
 	foreach($schema_properties as $field => $value)
 		{
-		$F[$field] = $row[$field];
+		$type = $value['type'];
+		
+		if($type=='string')
+			{	
+				
+			$F[$field] = $row[$field];
+			
+			if($field=='id')
+				{
+				$core_resource_id = $row[$field];	
+				}
+			}
+			
+		if($type=='array')
+			{			
+				
+			$path_count_array = explode("/",$route);	
+			$path_count = count($path_count_array);	
+			$core_path = $path_count_array[1];
+			$core_path = substr($core_path,0,strlen($core_path)-1);
+			//echo "path: " . $core_path . "<br />";
+			//echo "path count: " . $path_count . "<br />";				
+						
+			$sub_schema_ref = $value['schema']['$ref'];
+			$sub_schema = str_replace("#/definitions/","",$sub_schema_ref);
+			$sub_schema_properties = $definitions[$sub_schema]['properties'];
+			//echo $sub_schema . "\n";
+			//var_dump($sub_schema_properties);
+			
+			$sub_query = "SELECT ";
+			
+			// loop through each property and build fields
+			$field_string = "";
+			foreach($sub_schema_properties as $sub_field_1 => $sub_value_1)
+				{
+				$type = $sub_value_1['type'];
+				if($type=='string')
+					{
+					$field_string .= $sub_field_1 . ",";
+					}
+				}
+			$field_string = substr($field_string,0,strlen($field_string)-1);
+			$sub_query .= $field_string;
+			
+			$sub_query .= " FROM " . $sub_schema;
+			
+			$sub_query .= " WHERE " . $core_path . "_id = '" . $core_resource_id . "'";	
+			//echo $sub_query . "/n";
+			
+			$sub_array = array();
+			foreach ($conn->query($sub_query) as $sub_row)
+				{	
+				$a = array();	
+				foreach($sub_schema_properties as $sub_field_2 => $sub_value_2)
+					{
+					$a[$sub_field_2] = $sub_row[$sub_field_2];
+					}
+				array_push($sub_array,$a);
+				}
+				
+			$F[$field] = $sub_array;
+			
+			}			
 		}
 	array_push($ReturnObject, $F);
 	}
