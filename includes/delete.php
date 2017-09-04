@@ -2,11 +2,13 @@
 $request = $app->request();
 $_get = $request->params();
 
-// grab this path
-$api = $openapi_yaml['paths'][$route];
+$override = 0;
 
 // grab this path
-$definitions = $openapi_yaml['definitions'];
+$api = $openapi['hsda-default']['paths'][$route];
+
+// grab this path
+$definitions = $openapi['hsda-default']['definitions'];
 
 // load up the parameters (type,name,description,default)
 $parameters = $api[$verb]['parameters'];
@@ -20,56 +22,73 @@ $schema_ref = $response_200['schema']['items']['$ref'];
 $schema = str_replace("#/definitions/","",$schema_ref);
 $schema_properties = $definitions[$schema]['properties'];
 
-$Query = "DELETE FROM " . $schema;
-
-if(isset($id))
+// Load any pre extensions for this route
+if (file_exists($prepath)) 
 	{
-	$path_count_array = explode("/",$route);	
-	$path_count = count($path_count_array);	
-	$core_path = $path_count_array[1];
-	$core_path = substr($core_path,0,strlen($core_path)-1);
-	//echo "path: " . $core_path . "<br />";
-	//echo "path count: " . $path_count . "<br />";
+	include $prepath;
+	}
+
+// override primary query
+if($override==0)
+	{
 	
-	if(isset($id2))
+	$Query = "DELETE FROM " . $schema;
+	
+	if(isset($id))
 		{
-		if($path_count == 6)
+		$path_count_array = explode("/",$route);	
+		$path_count = count($path_count_array);	
+		$core_path = $path_count_array[1];
+		$core_path = substr($core_path,0,strlen($core_path)-1);
+		//echo "path: " . $core_path . "<br />";
+		//echo "path count: " . $path_count . "<br />";
+		
+		if(isset($id2))
 			{
-			$Query .= " WHERE id = '" . $id2 . "' AND " . $core_path . "_id = '" . $id . "'";	
-			}		
-		}
-	else
-		{
-		if($path_count == 5)
-			{
-			$Query .= " WHERE " . $core_path . "_id = '" . $id . "'";	
+			if($path_count == 6)
+				{
+				$Query .= " WHERE id = '" . $id2 . "' AND " . $core_path . "_id = '" . $id . "'";	
+				}		
 			}
 		else
 			{
-			$Query .= " WHERE id = '" . $id . "'";	
+			if($path_count == 5)
+				{
+				$Query .= " WHERE " . $core_path . "_id = '" . $id . "'";	
+				}
+			else
+				{
+				$Query .= " WHERE id = '" . $id . "'";	
+				}
+			}
+		}
+	
+	// Execute Query
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$response = $conn->exec($Query);
+	//echo $response . "\n";
+	
+	$ReturnObject = array();
+	$ReturnObject['message'] = $schema . " Deleted";
+	if(isset($id))
+		{
+		if(isset($id2))
+			{		
+			$ReturnObject['id'] = $id2;
+			$ReturnObject[$core_path . '_id'] = $id;
+			}
+		else
+			{
+			$ReturnObject['id'] = $id;	
 			}
 		}
 	}
-
-// Execute Query
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$response = $conn->exec($Query);
-//echo $response . "\n";
-
-$ReturnObject = array();
-$ReturnObject['message'] = $schema . " Deleted";
-if(isset($id))
+	
+// Load any post extensions for this path	
+if (file_exists($postpath)) 
 	{
-	if(isset($id2))
-		{		
-		$ReturnObject['id'] = $id2;
-		$ReturnObject[$core_path . '_id'] = $id;
-		}
-	else
-		{
-		$ReturnObject['id'] = $id;	
-		}
-	}
+	include $postpath;
+	}	
 	
 //echo $head['ACCEPT'] . "<br />";
 if(isset($head['ACCEPT']) && $head['ACCEPT'] == 'text/csv')
