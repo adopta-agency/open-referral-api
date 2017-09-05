@@ -11,8 +11,8 @@ $_body = json_decode($_body,true);
 $_body = filter_var_array($_body,FILTER_SANITIZE_STRING);
 		
 // Override any ID
-$id = getGUID();
-$_body['id'] = $id;
+$local_id = getGUID();
+$_body['id'] = $local_id;
 
 // grab this path
 $api = $openapi['hsda-default']['paths'][$route];
@@ -33,11 +33,21 @@ $schema = str_replace("#/definitions/","",$schema_ref);
 $schema_properties = $definitions[$schema]['properties'];	
 $schema = str_replace("_complete","",$schema);
 
+$path_count_array = explode("/",$route);	
+$path_count = count($path_count_array);	
+$core_path = $path_count_array[1];
+$core_path = substr($core_path,0,strlen($core_path)-1);
+//echo "path: " . $core_path . "<br />";
+if(isset($_body[$core_path . "_id"])){ $_body[$core_path . "_id"] = $id; }
+
 // Load any pre extensions for this route
 if (file_exists($prepath)) 
 	{
 	include $prepath;
 	}
+
+// Meta
+include "meta/pre.php";	
 
 // override primary query
 if($override==0)
@@ -127,8 +137,8 @@ if($override==0)
 	
 				// Override any ID
 				$sub_id = getGUID();
-				$sub_body['id'] = $id;	
-				$sub_body[$core_path . '_id'] = $sub_id;	
+				$sub_body['id'] = $sub_id;	
+				$sub_body[$core_path . '_id'] = $local_id;	
 				
 				// Fields
 				$field_string = "";
@@ -190,6 +200,9 @@ if (file_exists($postpath))
 	{
 	include $postpath;
 	}	
+	
+// Meta
+include "meta/post.php";	
 
 //echo $head['ACCEPT'] . "<br />";
 if(isset($head['ACCEPT']) && $head['ACCEPT'] == 'text/csv')
