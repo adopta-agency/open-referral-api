@@ -25,7 +25,7 @@ if(isset($head['X_APPKEY'])){ $appkey = $head['X_APPKEY']; } else { $appkey = ""
 //echo $appkey . "<br />";
 
 // Get permissions
-if($appid!='' && $appkey != '')
+if(($appid!='' && $appkey != '') && ($appid != $admin_login && $appkey != $admin_code))
 	{
 	$management_base_url = $openapi['hsda-management']['schemes'][0] . '://' . $openapi['hsda-management']['host'] . $openapi['hsda-management']['basePath'];
 	$management_base_url = $management_base_url . 'users/auth/?login=' . $admin_login . '&code=' . $admin_code;	
@@ -45,7 +45,7 @@ if($appid!='' && $appkey != '')
 	}
 else
 	{
-	$user_access	= array();
+	$user_access = array();
 	}
 
 //var_dump($user_access);
@@ -120,7 +120,7 @@ foreach($paths as $path => $path_details)
 		// I just don't know how to do the $app->[verb] and the $ids -- simmer on
 
 		// See if they have access
-		if($access==1)
+		if($access==1 || ($appid == $admin_login && $appkey == $admin_code))
 			{
 	
 	  		// GET

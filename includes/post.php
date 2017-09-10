@@ -7,8 +7,9 @@ $request = $app->request();
 $_get = $request->params();
 $_get = filter_var_array($_get,FILTER_SANITIZE_STRING);
 $_body = $request->getBody();
-$_body = json_decode($_body,true);
-$_body = filter_var_array($_body,FILTER_SANITIZE_STRING);
+$_body = str_replace(chr(92).'t',"",$_body);
+$_body = json_decode($_body,false);
+//$_body = filter_var_array($_body,FILTER_SANITIZE_STRING); /// how do we check for problems
 
 // Override any ID
 $local_id = getGUID();
