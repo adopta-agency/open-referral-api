@@ -9,7 +9,13 @@ if(isset($ReturnObject))
 $meta_timestamp = date('Y-m-d H:i:s');
 $status = "Complete";
 
+$meta_id = getGUID();
+
+$meta_response_body = json_encode($ReturnObject);
+//$meta_response_body = json_decode($meta_response_body);
+
 $m = array();
+$meta['id'] = $meta_id;
 $meta['timestamp'] = $meta_timestamp;
 $meta['appid'] = $appid;
 $meta['system'] = $openapi['hsda-default-system'];
@@ -18,7 +24,7 @@ $meta['verb'] = $meta_verb;
 $meta['request_parameters'] = $request_parameters;
 $meta['request_headers'] = $request_headers;
 $meta['request_body'] = $request_body;
-$meta['response_body'] = $ReturnObject;
+$meta['response_body'] = $meta_response_body;
 $meta['status'] = $status;
 
 $meta_base_url = $openapi['hsda-meta']['schemes'][0] . '://' . $openapi['hsda-meta']['host'] . $openapi['hsda-management']['basePath'];

@@ -13,7 +13,17 @@ $_body = json_decode($_body,false);
 
 // Override any ID
 $local_id = getGUID();
-$_body['id'] = $local_id;
+if(is_array($_body))
+	{
+	$_body['id'] = $local_id;
+	}
+else
+	{
+	if(isset($_body->id))
+		{
+		$_body->id = $local_id;
+		}
+	}	
 
 // grab this path
 $api = $openapi['hsda-default']['paths'][$route];
@@ -39,8 +49,15 @@ $path_count = count($path_count_array);
 $core_path = $path_count_array[1];
 $core_path = substr($core_path,0,strlen($core_path)-1);
 //echo "path: " . $core_path . "<br />";
-if(isset($_body[$core_path . "_id"])){ $_body[$core_path . "_id"] = $id; }
-
+if(is_array($_body))
+	{
+	if(isset($_body[$core_path . "_id"])){ $_body[$core_path . "_id"] = $id; }
+	}
+else
+	{
+	if(isset($_body->{$core_path."_id"})){ $_body->{$core_path."_id"}= $id; }
+	}
+	
 // Load any pre extensions for this route
 if (file_exists($prepath))
 	{
@@ -60,9 +77,19 @@ if($override==0)
 		{
 		if(isset($value['type']) && $value['type'] != 'array')
 			{
-			if(isset($_body[$field]))
+			if(is_array($_body))
+				{				
+				if(isset($_body[$field]))
+					{
+					$field_string .= $field . ",";
+					}
+				}
+			else
 				{
-				$field_string .= $field . ",";
+				if(isset($_body->$field))
+					{
+					$field_string .= $field . ",";
+					}					
 				}
 			}
 		else
@@ -78,17 +105,34 @@ if($override==0)
 		{
 		if(isset($value['type']) && $value['type'] != 'array')
 			{
-			if(isset($_body[$field]))
-				{
-				if(is_array( $_body[$field]))
+			if(is_array($_body))
+				{				
+				if(isset($_body[$field]))
 					{
-					$value_string .= "'" . stripslashes(format_json(json_encode($_body[$field]))) . "',";
-					}
-				else
-					{
-					$value_string .= "'" . $_body[$field] . "',";
+					if(is_array( $_body[$field]))
+						{
+						$value_string .= "'" . stripslashes(format_json(json_encode($_body[$field]))) . "',";
+						}
+					else
+						{
+						$value_string .= "'" . $_body[$field] . "',";
+						}
 					}
 				}
+			else
+				{				
+				if(isset($_body->{$field}))
+					{
+					if(is_array( $_body->{$field}))
+						{
+						$value_string .= "'" . stripslashes(format_json(json_encode($_body->{$field}))) . "',";
+						}
+					else
+						{
+						$value_string .= "'" . $_body->{$field} . "',";
+						}
+					}
+				}			
 			}
 		else
 			{
@@ -115,13 +159,30 @@ if($override==0)
 		{
 		// INSERT FAILED -- what do we do
 		}
-	// Return Values
-	$F = array();
+	// Return Value
+	if(is_array($_body))
+		{	
+		$F = array();
+		}
+	else
+		{
+		$F = new stdClass();	
+		}
 	foreach($schema_properties as $field => $value)
 		{
 		if(isset($value['type']) && $value['type'] != 'array')
 			{
-			$F[$field] = filter_var($_body[$field], FILTER_SANITIZE_STRING);
+			if(is_array($_body))
+				{	
+				$F[$field] = filter_var($_body[$field], FILTER_SANITIZE_STRING);
+				}
+			else
+				{
+				if(isset($_body->{$field}))
+					{
+					$F->{$field} = filter_var($_body->{$field}, FILTER_SANITIZE_STRING);	
+					}
+				}
 			}
 		else
 			{
