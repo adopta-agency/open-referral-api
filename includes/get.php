@@ -39,7 +39,7 @@ $response_200 = $responses['200'];
 $schema_ref = $response_200['schema']['items']['$ref'];
 $schema = str_replace("#/definitions/","",$schema_ref);
 $schema_properties = $definitions[$schema]['properties'];
-$schema = str_replace("_complete","",$schema);
+$schema = str_replace("_full","",$schema);
 
 $ReturnObject = array();
 
@@ -164,7 +164,7 @@ if($override==0)
 		//echo "path: " . $core_path . "<br />";
 		//echo "path count: " . $path_count . "<br />";
 		
-		if(isset($id2) && $id2 !='complete')
+		if(isset($id2) && $id2 !='full')
 			{
 			if($path_count == 6)
 				{
@@ -173,7 +173,7 @@ if($override==0)
 			}
 		else
 			{
-			if($path_count == 5 && $path_count_array[2] !='complete')
+			if($path_count == 5 && $path_count_array[2] !='full')
 				{
 				$Query .= " WHERE " . $core_path . "_id = '" . $id . "'";	
 				}
@@ -196,7 +196,7 @@ if($override==0)
 		$Query .= " LIMIT " . $paging;
 		}
 		
-	//echo $Query;
+//	echo $Query;
 	
 	$results = $conn->query($Query);
 	if(count($results) > 0)
@@ -207,16 +207,16 @@ if($override==0)
 			$core_resource_id = '';
 			foreach($schema_properties as $field => $value)
 				{
+				
+				if($field=='id')
+					{
+					$core_resource_id = $row[$field];	
+					}					
 					
 				if(isset($value['type']) && $value['type'] != 'array')
 					{			
 					$type = $value['type'];
 					$F[$field] = $row[$field];
-					
-					if($field=='id')
-						{
-						$core_resource_id = $row[$field];	
-						}
 					}
 				else
 					{			
@@ -249,21 +249,30 @@ if($override==0)
 					$sub_query .= " FROM " . $sub_schema;
 					
 					$sub_query .= " WHERE " . $core_path . "_id = '" . $core_resource_id . "'";	
-					//	echo $sub_query . "/n";
+					//echo "HERE:" . $sub_query . "<br />";
 					
-					$sub_array = array();
-					foreach ($conn->query($sub_query) as $sub_row)
-						{	
-						$a = array();	
-						foreach($sub_schema_properties as $sub_field_2 => $sub_value_2)
-							{
-							$a[$sub_field_2] = $sub_row[$sub_field_2];
+					if($core_resource_id!='')
+						{
+						$sub_array = array();
+						$sub_results = $conn->query($sub_query);
+						foreach ($sub_results as $this_row)
+							{	
+							//var_dump($this_row);
+							//echo "<br /><br />";
+							$a = array();	
+							foreach($sub_schema_properties as $sub_field_2 => $sub_value_2)
+								{
+								$a[$sub_field_2] = $this_row[$sub_field_2];
+								}
+							//var_dump($a);
+							array_push($sub_array,$a);
 							}
-						array_push($sub_array,$a);
+						//echo chr(13);	
+						//echo "HERE: " . $field . "<br />";
+						//var_dump($sub_array);
+						//echo "<br />";
+						$F[$field] = $sub_array;
 						}
-						
-					$F[$field] = $sub_array;
-					
 					}			
 				}
 			array_push($ReturnObject, $F);

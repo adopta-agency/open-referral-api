@@ -24,12 +24,18 @@ if(isset($head['X_APPKEY'])){ $appkey = $head['X_APPKEY']; } else { $appkey = ""
 //echo $appid . "<br />";
 //echo $appkey . "<br />";
 
+$admin = 0;
+if($appid == $admin_login && $appkey == $admin_code)
+	{
+	$admin = 1;	
+	}
+//echo "admin: " . $admin . "<br />";
 // Get permissions
 if(($appid!='' && $appkey != '') && ($appid != $admin_login && $appkey != $admin_code))
 	{
 	$management_base_url = $openapi['hsda-management']['schemes'][0] . '://' . $openapi['hsda-management']['host'] . $openapi['hsda-management']['basePath'];
 	$management_base_url = $management_base_url . 'users/auth/?login=' . $admin_login . '&code=' . $admin_code;	
-	//echo "management url: " . $management_base_url . "<br />";
+	echo "management url: " . $management_base_url . "<br />";
 	
 	// Send Auth Headers
 	$headers = array('x-appid: ' . $admin_login,'x-appkey: ' . $admin_code);
@@ -40,7 +46,7 @@ if(($appid!='' && $appkey != '') && ($appid != $admin_login && $appkey != $admin
 	curl_setopt($http, CURLOPT_HTTPHEADER, $headers); 
 	
 	$output = curl_exec($http);
-	//echo $output;
+	//echo "HERE:" . $output;
 	$user_access = json_decode($output,true);		
 	}
 else
@@ -100,13 +106,27 @@ foreach($paths as $path => $path_details)
 			//echo "default: " . $openapi['hsda-default-system'] . "\n";	
 			//var_dump($user_access[$openapi['hsda-default-system']]);
 		//	echo "setting: " . $user_access[$openapi['hsda-default-system']][$route] . "\n";	
-			if(isset($user_access[$openapi['hsda-default-system']][$route][$verb]))
+			//echo "SECURE: " . $route;
+			$secure_route = $route;
+			$secure_route_array = explode("{",$secure_route);
+			//var_dump($secure_route_array);
+			$secure_route = $secure_route_array[0];
+			//echo $secure_route . "\n";
+			if($admin==1)
 				{
-				$access = 1;	
+				$access = 1;		
 				}
 			else
-				{
-				$access = 0;	
+				{	
+				//var_dump($user_access[$openapi['hsda-default-system']][$secure_route][$verb]);
+				if(isset($user_access[$openapi['hsda-default-system']][$secure_route][$verb]))
+					{
+					$access = 1;	
+					}
+				else
+					{
+					$access = 0;	
+					}
 				}
 			}
 		else
